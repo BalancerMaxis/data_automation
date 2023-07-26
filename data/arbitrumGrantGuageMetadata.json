@@ -1,0 +1,27 @@
+[
+  {
+    "gaugeAddress": "0x4944b07977A42C15c6a06CF4e204e24c60564104\t",
+    "fixedBoost": 1.75,
+    "meta": {
+      "symbol": "rETH-bb-a-WETH-BPT",
+      "boostReason": "Core - LSD Stableswap"
+    }
+  },
+    {
+    "gaugeAddress": "0xDf464348c4EC2Bf0e5D6926b9f707c8e02301adf\t",
+    "fixedBoost": 1.75,
+    "meta": {
+      "symbol": "B-wstETH-WETH-Stable",
+      "boostReason": "Core - LSD Stableswap"
+    }
+  },
+  {
+    "gaugeAddress": "0x8135d6AbFd42707A87A7b94c5CFA3529f9b432AD",
+    "fixedBoost": 1.5,
+    "meta": {
+      "symbol": "RDNT-WETH",
+      "boostReason": "Innovation - ve80/20"
+    }
+  }
+
+]
