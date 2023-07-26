@@ -1,4 +1,9 @@
-[
+{
+  "meta":{
+    "changeDate": "28-03",
+    "description": "Emissions per week, changes each year on changeDate (time unknown)"
+  },
+ "data": [
   {
     "year": "2022",
     "balPerWeek": "145000"
@@ -116,3 +121,4 @@
     "balPerWeek": "1132.8125000000002"
   }
 ]
+}
