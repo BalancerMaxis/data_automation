@@ -2,7 +2,7 @@
   {
     "gaugeAddress": "0x9ab40B6e1330Ce70B9e07cD691f281c1539944E6",
     "fixedBoost": 1.75,
-    "capOverride": 10,
+    "capOverride": 20,
     "metadata": {
         "symbol": "bb-a-USD",
         "boostReason": "Core - Boosted Stableswap",

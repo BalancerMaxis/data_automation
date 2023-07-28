@@ -4,8 +4,8 @@
         "pool": "0xb3028Ca124B80CFE6E9CA57B70eF2F0CCC41eBd4",
         "symbol": "50MAGIC-50USDC",
         "voteWeight": 0.2097215781446297,
-        "distribution": 3530.327596336034,
-        "distributionInPercent": 3.6244174739600363,
+        "distribution": 3000.257778867523,
+        "distributionInPercent": 3.080220297798369,
         "boost": 1,
         "capOverride": "10%"
     },
@@ -14,8 +14,8 @@
         "pool": "0x36bf227d6BaC96e2aB1EbB5492ECec69C691943f",
         "symbol": "B-wstETH-WETH-Stable",
         "voteWeight": 0.9665841268259434,
-        "distribution": 16107.84239632306,
-        "distributionInPercent": 16.537146725312162,
+        "distribution": 13792.354498855024,
+        "distributionInPercent": 14.159946715591786,
         "boost": 1.75,
         "capOverride": "20%"
     },
@@ -34,8 +34,8 @@
         "pool": "0xCba9Ff45cfB9cE238AfDE32b0148Eb82CbE63562",
         "symbol": "rETH-bb-a-WETH-BPT",
         "voteWeight": 0.17826643943976261,
-        "distribution": 2838.8297180693876,
-        "distributionInPercent": 2.914489875230368,
+        "distribution": 2514.665605738031,
+        "distributionInPercent": 2.581686178943402,
         "boost": 1.75,
         "capOverride": "20%"
     },
@@ -44,8 +44,8 @@
         "pool": "0x542F16DA0efB162D20bF4358EfA095B70A100f9E",
         "symbol": "2BTC",
         "voteWeight": 0.2669529683266597,
-        "distribution": 4222.778910900633,
-        "distributionInPercent": 4.335323919860203,
+        "distribution": 3759.065176058439,
+        "distributionInPercent": 3.8592513408673557,
         "boost": 1,
         "capOverride": "10%"
     },
@@ -54,8 +54,8 @@
         "pool": "0xc9f52540976385A84BF416903e1Ca3983c539E34",
         "symbol": "50tBTC-50WETH",
         "voteWeight": 0.5365361025705532,
-        "distribution": 8405.321603569268,
-        "distributionInPercent": 8.629339250512574,
+        "distribution": 7535.843868275095,
+        "distributionInPercent": 7.7366882964509625,
         "boost": 1,
         "capOverride": "10%"
     },
@@ -64,8 +64,8 @@
         "pool": "0x8d333f82e0693f53fA48c40d5D4547142E907e1D",
         "symbol": "80PAL-20OHM",
         "voteWeight": 0.1113153491686317,
-        "distribution": 1711.819791983487,
-        "distributionInPercent": 1.7574430125903322,
+        "distribution": 1555.7927819726917,
+        "distributionInPercent": 1.5972575889826823,
         "boost": 1,
         "capOverride": "10%"
     },
@@ -74,8 +74,8 @@
         "pool": "0x8bc65Eed474D1A00555825c91FeAb6A8255C2107",
         "symbol": "DOLA/USDC BPT",
         "voteWeight": 0.213185458302392,
-        "distribution": 3267.2283839381244,
-        "distributionInPercent": 3.3543061721675955,
+        "distribution": 2976.81976690024,
+        "distributionInPercent": 3.0561576186812043,
         "boost": 1,
         "capOverride": "10%"
     },
@@ -84,8 +84,8 @@
         "pool": "0x567ECfCB22205D279BB8Eed3E066989902bF03D5",
         "symbol": "DOLA/bbaUSD-BPT",
         "voteWeight": 0.373074552029186,
-        "distribution": 5681.19840872943,
-        "distributionInPercent": 5.8326130433343915,
+        "distribution": 5200.385742798997,
+        "distributionInPercent": 5.338985814544574,
         "boost": 1.75,
         "capOverride": "10%"
     },
@@ -104,8 +104,8 @@
         "pool": "0xBe0f30217BE1e981aDD883848D0773A86d2d2CD4",
         "symbol": "rETH-bb-a-WETH-BPT",
         "voteWeight": 1.0209339033700213,
-        "distribution": 15380.812700343438,
-        "distributionInPercent": 15.790740319025337,
+        "distribution": 14189.392354555517,
+        "distributionInPercent": 14.567566377721159,
         "boost": 1.75,
         "capOverride": "20%"
     },
@@ -114,8 +114,8 @@
         "pool": "0x45C4D1376943Ab28802B995aCfFC04903Eb5223f",
         "symbol": "wstETH-bb-a-WETH-BPT",
         "voteWeight": 0.4800371125039161,
-        "distribution": 7036.640489807137,
-        "distributionInPercent": 7.224180208006999,
+        "distribution": 6621.729531206052,
+        "distributionInPercent": 6.798211091131836,
         "boost": 1.75,
         "capOverride": "20%"
     },
@@ -124,9 +124,9 @@
         "pool": "0xc6EeE8cb7643eC2F05F46d569e9eC8EF8b41b389",
         "symbol": "bb-a-USD",
         "voteWeight": 1.2197683146389124,
-        "distribution": 9740.4,
-        "distributionInPercent": 10.0,
+        "distribution": 16776.892894772373,
+        "distributionInPercent": 17.224028679286654,
         "boost": 1.75,
-        "capOverride": "10%"
+        "capOverride": "20%"
     }
 }
