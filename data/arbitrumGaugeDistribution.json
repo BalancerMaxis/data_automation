@@ -1,0 +1,132 @@
+{
+    "0x0EDF6cDd81BC3471C053341B7D8Dfd1Cb367AD93": {
+        "gaugeAddress": "0x0EDF6cDd81BC3471C053341B7D8Dfd1Cb367AD93",
+        "pool": "0xb3028Ca124B80CFE6E9CA57B70eF2F0CCC41eBd4",
+        "symbol": "50MAGIC-50USDC",
+        "voteWeight": 0.2097215781446297,
+        "distribution": 4188.565699527083,
+        "distributionInPercent": 4.300198861984192,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0xDf464348c4EC2Bf0e5D6926b9f707c8e02301adf": {
+        "gaugeAddress": "0xDf464348c4EC2Bf0e5D6926b9f707c8e02301adf",
+        "pool": "0x36bf227d6BaC96e2aB1EbB5492ECec69C691943f",
+        "symbol": "B-wstETH-WETH-Stable",
+        "voteWeight": 0.9665841268259434,
+        "distribution": 19060.91196687529,
+        "distributionInPercent": 19.568921160193923,
+        "boost": 1.75,
+        "capOverride": "20%"
+    },
+    "0x8135d6AbFd42707A87A7b94c5CFA3529f9b432AD": {
+        "gaugeAddress": "0x8135d6AbFd42707A87A7b94c5CFA3529f9b432AD",
+        "pool": "0x32dF62dc3aEd2cD6224193052Ce665DC18165841",
+        "symbol": "RDNT-WETH",
+        "voteWeight": 0.9349829796326374,
+        "distribution": 9740.4,
+        "distributionInPercent": 10.0,
+        "boost": 1.5,
+        "capOverride": "10%"
+    },
+    "0x4944b07977A42C15c6a06CF4e204e24c60564104": {
+        "gaugeAddress": "0x4944b07977A42C15c6a06CF4e204e24c60564104",
+        "pool": "0xCba9Ff45cfB9cE238AfDE32b0148Eb82CbE63562",
+        "symbol": "rETH-bb-a-WETH-BPT",
+        "voteWeight": 0.17826643943976261,
+        "distribution": 3321.0681233530236,
+        "distributionInPercent": 3.4095808420116462,
+        "boost": 1.75,
+        "capOverride": "20%"
+    },
+    "0xc4b6cc9A444337b1Cb8cBbDD9de4d983f609C391": {
+        "gaugeAddress": "0xc4b6cc9A444337b1Cb8cBbDD9de4d983f609C391",
+        "pool": "0x542F16DA0efB162D20bF4358EfA095B70A100f9E",
+        "symbol": "2BTC",
+        "voteWeight": 0.2669529683266597,
+        "distribution": 4934.947620240536,
+        "distributionInPercent": 5.066473266231916,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0xa8D974288Fe44ACC329D7d7a179707D27Ec4dd1c": {
+        "gaugeAddress": "0xa8D974288Fe44ACC329D7d7a179707D27Ec4dd1c",
+        "pool": "0xc9f52540976385A84BF416903e1Ca3983c539E34",
+        "symbol": "50tBTC-50WETH",
+        "voteWeight": 0.5365361025705532,
+        "distribution": 9740.4,
+        "distributionInPercent": 10.0,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0xd758454BDF4Df7Ad85f7538DC9742648EF8e6d0A": {
+        "gaugeAddress": "0xd758454BDF4Df7Ad85f7538DC9742648EF8e6d0A",
+        "pool": "0x8d333f82e0693f53fA48c40d5D4547142E907e1D",
+        "symbol": "80PAL-20OHM",
+        "voteWeight": 0.1113153491686317,
+        "distribution": 1995.9588212706137,
+        "distributionInPercent": 2.049154882007529,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0x25869f277f474FA9459F40F5D4cB0D6A8Ab41967": {
+        "gaugeAddress": "0x25869f277f474FA9459F40F5D4cB0D6A8Ab41967",
+        "pool": "0x8bc65Eed474D1A00555825c91FeAb6A8255C2107",
+        "symbol": "DOLA/USDC BPT",
+        "voteWeight": 0.213185458302392,
+        "distribution": 3808.2676477523323,
+        "distributionInPercent": 3.909765151074219,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0xacE0D479040231e3c6b17479cFd4444182d521d4": {
+        "gaugeAddress": "0xacE0D479040231e3c6b17479cFd4444182d521d4",
+        "pool": "0x567ECfCB22205D279BB8Eed3E066989902bF03D5",
+        "symbol": "DOLA/bbaUSD-BPT",
+        "voteWeight": 0.373074552029186,
+        "distribution": 6618.1421499155795,
+        "distributionInPercent": 6.7945280993753645,
+        "boost": 1.75,
+        "capOverride": "10%"
+    },
+    "0x175407b4710b5A1cB67a37C76859F17fb2ff6672": {
+        "gaugeAddress": "0x175407b4710b5A1cB67a37C76859F17fb2ff6672",
+        "pool": "0xc7FA3A3527435720f0e2a4c1378335324dd4F9b3",
+        "symbol": "55auraBal-45wsteth",
+        "voteWeight": 0.7962726438810561,
+        "distribution": 9740.4,
+        "distributionInPercent": 10.0,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0xb12ADA23eE766bd6b596E2bE556ea2046758b87c": {
+        "gaugeAddress": "0xb12ADA23eE766bd6b596E2bE556ea2046758b87c",
+        "pool": "0xBe0f30217BE1e981aDD883848D0773A86d2d2CD4",
+        "symbol": "rETH-bb-a-WETH-BPT",
+        "voteWeight": 0.5833908019257265,
+        "distribution": 9740.4,
+        "distributionInPercent": 10.0,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0x80aed5C5C683FEC86817C98da334DD72424E7297": {
+        "gaugeAddress": "0x80aed5C5C683FEC86817C98da334DD72424E7297",
+        "pool": "0x45C4D1376943Ab28802B995aCfFC04903Eb5223f",
+        "symbol": "wstETH-bb-a-WETH-BPT",
+        "voteWeight": 0.2743069214308092,
+        "distribution": 4774.137971065544,
+        "distributionInPercent": 4.90137773712121,
+        "boost": 1,
+        "capOverride": "10%"
+    },
+    "0x9ab40B6e1330Ce70B9e07cD691f281c1539944E6": {
+        "gaugeAddress": "0x9ab40B6e1330Ce70B9e07cD691f281c1539944E6",
+        "pool": "0xc6EeE8cb7643eC2F05F46d569e9eC8EF8b41b389",
+        "symbol": "bb-a-USD",
+        "voteWeight": 0.69701046550795,
+        "distribution": 9740.4,
+        "distributionInPercent": 10.0,
+        "boost": 1,
+        "capOverride": "10%"
+    }
+}
