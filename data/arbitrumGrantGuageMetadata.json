@@ -6,7 +6,7 @@
     "metadata": {
         "symbol": "bb-a-USD",
         "boostReason": "Core - Boosted Stableswap",
-        "capOverrideReason": "bb-a-usd",
+        "capOverrideReason": "bb-a-usd"
 
     }
   },
