@@ -24,7 +24,7 @@ By default all pools have a fixed boost of 1.  The following table describes sit
 | New and Novel AMM tech   | 2x          |
 
 
-#### Ecosystem Integrations
+#### Ecosystem Integrations (1.5x)
  - Boosted pools https://docs.balancer.fi/concepts/pools/boosted.html pools with a boosted component that deposit idle liquidity into yield bearing strategies across the Arbitrum ecosystem
 - Yield splitting protocols like Pendle will have extra ARB allocated to the supported pools that have TVL >$1m
 - Concentrated liquidity pool types by Gyroscope 
@@ -32,17 +32,17 @@ By default all pools have a fixed boost of 1.  The following table describes sit
 - Balancer LP Tokens as collateral - pools with significant TVL on lending markets 
 
 
-#### Core Infra
+#### Core Infra (1.75x)
 - LSTs
 - Boosted stablecoin pairs
 - 80/20 based governance/incentive systems.
 
-#### New and Novel AMM tech
+#### New and Novel AMM tech (2x)
 This is to help get attention to new New Custom Pool types that have just launched.  
 Pools in this section may move to the "Integrations" category after some time.
 
 
-### Variable Fee Based Boost
+### Variable Fee Based Boost (1-3x)
 The variable boost is determined by using the following formula:
 
 Variable boost = **_Fees earned/value of bal emitted + 1_**
