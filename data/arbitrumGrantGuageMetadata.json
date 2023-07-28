@@ -1,5 +1,14 @@
 [
   {
+    "gaugeAddress": "0xb12ADA23eE766bd6b596E2bE556ea2046758b87c",
+    "fixedBoost": 1.75,
+    "capOverride": 20,
+    "meta": {
+      "symbol": "rETH-bb-a-WETH-BPT - OLD",
+      "boostReason": "Core - LSD Stableswap"
+    }
+  },
+  {
     "gaugeAddress": "0x4944b07977A42C15c6a06CF4e204e24c60564104",
     "fixedBoost": 1.75,
     "capOverride": 20,
@@ -23,6 +32,15 @@
     "capOverride": 20,
     "meta": {
       "symbol": "wstETH-bb-a-WETH-BPT",
+      "boostReason": "Core - LSD Stableswap"
+    }
+  },
+    {
+    "gaugeAddress": "0x80aed5C5C683FEC86817C98da334DD72424E7297",
+    "fixedBoost": 1.75,
+    "capOverride": 20,
+    "meta": {
+      "symbol": "wstETH-bb-a-WETH-BPT old",
       "boostReason": "Core - LSD Stableswap"
     }
   },
