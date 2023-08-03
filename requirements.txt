@@ -3,10 +3,9 @@ jupyterlab==4.0.3
 matplotlib==3.7.2
 tabulate==0.8.10
 pandas==2.0.3
-pycoingecko==2.2.0
 jupyter-contrib-nbextensions==0.7.0
 python-dotenv
 web3
 gql[requests]==3.4.1
 seaborn==0.12.2
-
+pycoingecko==3.1.0
