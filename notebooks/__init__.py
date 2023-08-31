@@ -143,7 +143,7 @@ def get_bpt_price(
 if __name__ == "__main__":
     web3 = Web3(
         Web3.HTTPProvider(
-            "https://arb-mainnet.g.alchemy.com/v2/9vSF9OOKeP0YalMNBvAegAtEYA3I9CEQ"
+            ""
         )
     )
     bpt_price = get_bpt_price(
