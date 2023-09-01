@@ -8,7 +8,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Union
-
+from pycoingecko import CoinGeckoAPI
 from web3 import Web3
 from gql import Client
 from gql import gql
@@ -103,7 +103,7 @@ def _get_balancer_pool_tokens_balances(
     return token_balances
 
 
-def _fetch_token_price_balgql(
+def fetch_token_price_balgql(
     token_addr: str, chain: str, twap_days: Optional[int] = 14
 ) -> Optional[Decimal]:
     """
@@ -133,10 +133,44 @@ def _fetch_token_price_balgql(
     return twap_price
 
 
+def get_cg_twap_price(
+    token_addr: str,
+    chain: str,
+    start_date: Optional[date] = date.today(),
+    twap_days: Optional[int] = 14
+) -> Optional[Decimal]:
+    """
+    Fetches token price from coingecko api and calculate twap over X days
+    """
+    cg = CoinGeckoAPI()
+    coin_list = cg.get_coins_list(include_platform=True)
+    chain_to_cg_platform = CHAIN_TO_CG_PLATFORM_MAP[chain]
+    cg_token_id = None
+    for cg_coin in coin_list:
+        _token_address = cg_coin["platforms"].get(chain_to_cg_platform)
+        if not _token_address:
+            continue
+        if Web3.toChecksumAddress(_token_address) == token_addr:
+            cg_token_id = cg_coin["id"]
+            break
+    if not cg_token_id:
+        return None
+    # Now we have cg_token_id, let's fetch prices
+    prices = []
+    for i in range(twap_days):
+        desired_date = start_date - timedelta(days=i)
+        _price = cg.get_coin_history_by_id(
+            cg_token_id, date=desired_date.strftime("%d-%m-%Y")
+        )
+        prices.append(_price["market_data"]["current_price"]["usd"])
+    return Decimal(sum(prices) / len(prices))
+
+
 def get_twap_bpt_price(
     balancer_pool_id: str,
     chain: str,
     web3: Web3,
+    start_date: Optional[date] = date.today(),
     twap_days: Optional[int] = 14,
 ) -> Optional[Decimal]:
     """
@@ -161,7 +195,7 @@ def get_twap_bpt_price(
     )
     # Now let's calculate price with twap
     for balance in balances:
-        balance.twap_price = _fetch_token_price_balgql(
+        balance.twap_price = fetch_token_price_balgql(
             balance.token_addr, chain, twap_days
         )
     # Make sure we have all prices
