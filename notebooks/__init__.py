@@ -41,6 +41,7 @@ class PoolBalance:
     balance: Decimal
     cg_token_id: str = ""
     cg_token_price: float = 0.0
+    cg_token_prices: List[Decimal] = None
 
 
 def get_abi(contract_name: str) -> Union[Dict, List[Dict]]:
@@ -81,11 +82,12 @@ def _get_balancer_pool_tokens_balances(
     return token_balances
 
 
-def get_bpt_price(
+def get_twap_bpt_price(
     balancer_pool_id: str,
     chain: str,
     web3: Web3,
-    date_of_accounting: Optional[date] = date.today() - timedelta(days=1),
+    start_date: Optional[date] = date.today(),
+    twap_days: Optional[int] = 14,
 ) -> Optional[Decimal]:
     """
     BPT dollar price equals to Sum of all underlying ERC20 tokens in the Balancer pool divided by
@@ -119,34 +121,42 @@ def get_bpt_price(
             if Web3.toChecksumAddress(_token_address) == balance.token_addr:
                 balance.cg_token_id = cg_coin["id"]
 
-    # Now we get all token ids and we can fetch them from coingecko with date
-    desired_date = (
-        date.today() - timedelta(days=1)
-        if not date_of_accounting
-        else date_of_accounting
-    )
+    # Now let's calculate price with twap
     for balance in balances:
-        # Desired date should be str format like DD-MM-YYYY
-        _price = cg.get_coin_history_by_id(
-            balance.cg_token_id, date=desired_date.strftime("%d-%m-%Y")
+        prices = []
+        desired_date = start_date
+        balance.cg_token_prices = []
+        for i in range(twap_days):
+            # Desired date should be str format like DD-MM-YYYY
+            _price = cg.get_coin_history_by_id(
+                balance.cg_token_id, date=desired_date.strftime("%d-%m-%Y")
+            )
+            # Decrease date by 1 day to get previous day price
+            desired_date = desired_date - timedelta(days=1)
+            balance.cg_token_prices.append(
+                Decimal(_price["market_data"]["current_price"]["usd"])
+            )
+    # Calculate BPT price for each given day and then get TWAP for all days
+    bpt_prices = []
+    for i in range(twap_days):
+        bpt_prices.append(
+            sum([balance.cg_token_prices[i] * balance.balance for balance in balances])
+            / Decimal(
+                weighed_pool_contract.functions.totalSupply().call()
+                / 10 ** weighed_pool_contract.functions.decimals().call()
+            )
         )
-        balance.cg_token_price = Decimal(_price["market_data"]["current_price"]["usd"])
 
-    return sum(
-        [balance.cg_token_price * balance.balance for balance in balances]
-    ) / Decimal(
-        weighed_pool_contract.functions.totalSupply().call()
-        / 10 ** weighed_pool_contract.functions.decimals().call()
-    )
+    return sum(bpt_prices) / Decimal(twap_days)
 
 
 if __name__ == "__main__":
     web3 = Web3(
         Web3.HTTPProvider(
-            ""
+            "https://arb-mainnet.g.alchemy.com/v2/9vSF9OOKeP0YalMNBvAegAtEYA3I9CEQ"
         )
     )
-    bpt_price = get_bpt_price(
+    bpt_price = get_twap_bpt_price(
         "0x32df62dc3aed2cd6224193052ce665dc181658410002000000000000000003bd",
         "arbitrum",
         web3,
