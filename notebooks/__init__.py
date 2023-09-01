@@ -9,8 +9,10 @@ from typing import List
 from typing import Optional
 from typing import Union
 
-from pycoingecko import CoinGeckoAPI
 from web3 import Web3
+from gql import Client
+from gql import gql
+from gql.transport.requests import RequestsHTTPTransport
 
 BALANCER_CONTRACTS = {
     "mainnet": {
@@ -24,12 +26,31 @@ BALANCER_CONTRACTS = {
     },
 }
 
+CHAIN_TO_CHAIN_ID_MAP = {
+    "mainnet": 1,
+    "arbitrum": "42161",
+    "polygon": "137",
+    "optimism": "10",
+}
+
 CHAIN_TO_CG_PLATFORM_MAP = {
     "mainnet": "ethereum",
     "arbitrum": "arbitrum-one",
     "polygon": "polygon-pos",
     "optimism": "optimistic-ethereum",
 }
+
+BAL_GQL_QUERY = """
+query {{
+  tokenGetPriceChartData(address:"{token_addr}", range: THIRTY_DAY)   
+   {{
+    id
+    price
+    timestamp
+  }}
+}}
+"""
+BAL_GQL_URL = "https://api-v3.balancer.fi/"
 
 
 @dataclass
@@ -82,11 +103,40 @@ def _get_balancer_pool_tokens_balances(
     return token_balances
 
 
+def _fetch_token_price_balgql(
+    token_addr: str, chain: str, twap_days: Optional[int] = 14
+) -> Optional[Decimal]:
+    """
+    Fetches 30 days of token prices from balancer graphql api and calculate twap over 14 days
+    """
+    transport = RequestsHTTPTransport(
+        url=BAL_GQL_URL,
+        retries=2,
+        headers={"chainId": CHAIN_TO_CHAIN_ID_MAP[chain]} if chain != "mainnet" else {},
+    )
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    query = gql(BAL_GQL_QUERY.format(token_addr=token_addr.lower()))
+    result = client.execute(query)
+    # Sort result by timestamp desc
+    result["tokenGetPriceChartData"].sort(key=lambda x: x["timestamp"], reverse=True)
+    # Cut result in half and calculate twap price for 14 days
+    result_slice = result["tokenGetPriceChartData"][: len(result["tokenGetPriceChartData"]) // 2]
+    # Remove all items that have timestamp before 14 days ago
+    result_slice = [
+        item for item in result_slice
+        if date.fromtimestamp(item["timestamp"]) >= date.today() - timedelta(days=twap_days)
+    ]
+    # Sum all prices and divide by number of days
+    twap_price = Decimal(
+        sum([Decimal(item["price"]) for item in result_slice]) / len(result_slice)
+    )
+    return twap_price
+
+
 def get_twap_bpt_price(
     balancer_pool_id: str,
     chain: str,
     web3: Web3,
-    start_date: Optional[date] = date.today(),
     twap_days: Optional[int] = 14,
 ) -> Optional[Decimal]:
     """
@@ -104,50 +154,27 @@ def get_twap_bpt_price(
         address=web3.toChecksumAddress(balancer_pool_address),
         abi=get_abi("WeighedPool"),
     )
-    # Get all tokens in the pool:
-    cg = CoinGeckoAPI()
+    decimals = weighed_pool_contract.functions.decimals().call()
+    total_supply = Decimal(weighed_pool_contract.functions.totalSupply().call() / 10**decimals)
     balances = _get_balancer_pool_tokens_balances(
         balancer_pool_id=balancer_pool_id, web3=web3, chain=chain
     )
-    # Now we need to fetch all coins from coingecko and map them to each of our tokens symbols
-    # to get their prices
-    coin_list = cg.get_coins_list(include_platform=True)
-    chain_to_cg_platform = CHAIN_TO_CG_PLATFORM_MAP[chain]
-    for cg_coin in coin_list:
-        for balance in balances:
-            _token_address = cg_coin["platforms"].get(chain_to_cg_platform)
-            if not _token_address:
-                continue
-            if Web3.toChecksumAddress(_token_address) == balance.token_addr:
-                balance.cg_token_id = cg_coin["id"]
-
     # Now let's calculate price with twap
     for balance in balances:
-        prices = []
-        desired_date = start_date
-        balance.cg_token_prices = []
-        for i in range(twap_days):
-            # Desired date should be str format like DD-MM-YYYY
-            _price = cg.get_coin_history_by_id(
-                balance.cg_token_id, date=desired_date.strftime("%d-%m-%Y")
-            )
-            # Decrease date by 1 day to get previous day price
-            desired_date = desired_date - timedelta(days=1)
-            balance.cg_token_prices.append(
-                Decimal(_price["market_data"]["current_price"]["usd"])
-            )
-    # Calculate BPT price for each given day and then get TWAP for all days
-    bpt_prices = []
-    for i in range(twap_days):
-        bpt_prices.append(
-            sum([balance.cg_token_prices[i] * balance.balance for balance in balances])
-            / Decimal(
-                weighed_pool_contract.functions.totalSupply().call()
-                / 10 ** weighed_pool_contract.functions.decimals().call()
-            )
+        balance.twap_price = _fetch_token_price_balgql(
+            balance.token_addr, chain, twap_days
         )
-
-    return sum(bpt_prices) / Decimal(twap_days)
+    # Make sure we have all prices
+    if not all([balance.twap_price for balance in balances]):
+        return None
+    # Now we have all prices, let's calculate total price
+    total_price = sum(
+        [
+            balance.balance * balance.twap_price
+            for balance in balances
+        ]
+    )
+    return total_price / Decimal(total_supply)
 
 
 if __name__ == "__main__":
