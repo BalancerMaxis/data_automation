@@ -15,6 +15,9 @@ from gql.transport.requests import RequestsHTTPTransport
 from pycoingecko import CoinGeckoAPI
 from web3 import Web3
 
+VE_BAL_CONTRACT = "0xC128a9954e6c874eA3d62ce62B468bA073093F25"
+AURA_VEBAL_HOLDER = "0xaF52695E1bB01A16D33D7194C28C42b10e0Dbec2"
+
 BALANCER_CONTRACTS = {
     "mainnet": {
         "BALANCER_VAULT_ADDRESS": "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
@@ -218,6 +221,22 @@ def get_twap_bpt_price(
     # Now we have all prices, let's calculate total price
     total_price = sum([balance.balance * balance.twap_price for balance in balances])
     return total_price / Decimal(total_supply)
+
+
+def calculate_aura_vebal_share(block_number: int) -> Decimal:
+    """
+    Function that calculate veBAL share of AURA auraBAL from the total supply of veBAL
+    """
+    ve_bal_contract = web3.eth.contract(
+        address=web3.toChecksumAddress(VE_BAL_CONTRACT), abi=get_abi("ERC20")
+    )
+    total_supply = ve_bal_contract.functions.totalSupply().call(
+        block_identifier=block_number
+    )
+    aura_vebal_balance = ve_bal_contract.functions.balanceOf(
+        AURA_VEBAL_HOLDER
+    ).call(block_identifier=block_number)
+    return Decimal(aura_vebal_balance) / Decimal(total_supply)
 
 
 if __name__ == "__main__":
