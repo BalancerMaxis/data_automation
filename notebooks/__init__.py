@@ -223,7 +223,7 @@ def get_twap_bpt_price(
     return total_price / Decimal(total_supply)
 
 
-def calculate_aura_vebal_share(block_number: int) -> Decimal:
+def calculate_aura_vebal_share(web3: Web3, block_number: int) -> Decimal:
     """
     Function that calculate veBAL share of AURA auraBAL from the total supply of veBAL
     """
