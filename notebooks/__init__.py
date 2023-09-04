@@ -71,73 +71,11 @@ def get_abi(contract_name: str) -> Union[Dict, List[Dict]]:
         return json.load(f)
 
 
-def _get_balancer_pool_tokens_balances(
-    balancer_pool_id: str, web3: Web3, chain: str
-) -> Optional[List[PoolBalance]]:
-    """
-    Returns all token balances for a given balancer pool
-    """
-    vault_addr = BALANCER_CONTRACTS[chain]["BALANCER_VAULT_ADDRESS"]
-    balancer_vault = web3.eth.contract(
-        address=web3.toChecksumAddress(vault_addr), abi=get_abi("BalancerVault")
-    )
-
-    tokens, balances, _ = balancer_vault.functions.getPoolTokens(
-        balancer_pool_id
-    ).call()
-    token_balances = []
-    for index, token in enumerate(tokens):
-        token_contract = web3.eth.contract(
-            address=web3.toChecksumAddress(token), abi=get_abi("ERC20")
-        )
-        decimals = token_contract.functions.decimals().call()
-        balance = Decimal(balances[index]) / Decimal(10**decimals)
-        pool_token_balance = PoolBalance(
-            token_addr=token,
-            token_name=token_contract.functions.name().call(),
-            token_symbol=token_contract.functions.symbol().call(),
-            pool_id=balancer_pool_id,
-            balance=balance,
-        )
-        token_balances.append(pool_token_balance)
-    return token_balances
-
-
-def fetch_token_price_balgql(
-    token_addr: str, chain: str, twap_days: Optional[int] = 14
-) -> Optional[Decimal]:
-    """
-    Fetches 30 days of token prices from balancer graphql api and calculate twap over 14 days
-    """
-    transport = RequestsHTTPTransport(
-        url=BAL_GQL_URL,
-        retries=2,
-        headers={"chainId": CHAIN_TO_CHAIN_ID_MAP[chain]} if chain != "mainnet" else {},
-    )
-    client = Client(transport=transport, fetch_schema_from_transport=True)
-    query = gql(BAL_GQL_QUERY.format(token_addr=token_addr.lower()))
-    result = client.execute(query)
-    # Sort result by timestamp desc
-    result["tokenGetPriceChartData"].sort(key=lambda x: x["timestamp"], reverse=True)
-    # Cut result in half and calculate twap price for 14 days
-    result_slice = result["tokenGetPriceChartData"][: len(result["tokenGetPriceChartData"]) // 2]
-    # Remove all items that have timestamp before 14 days ago
-    result_slice = [
-        item for item in result_slice
-        if date.fromtimestamp(item["timestamp"]) >= date.today() - timedelta(days=twap_days)
-    ]
-    # Sum all prices and divide by number of days
-    twap_price = Decimal(
-        sum([Decimal(item["price"]) for item in result_slice]) / len(result_slice)
-    )
-    return twap_price
-
-
 def get_cg_twap_price(
     token_addr: str,
     chain: str,
     start_date: Optional[date] = date.today(),
-    twap_days: Optional[int] = 14
+    twap_days: Optional[int] = 14,
 ) -> Optional[Decimal]:
     """
     Fetches token price from coingecko api and calculate twap over X days
@@ -166,11 +104,81 @@ def get_cg_twap_price(
     return Decimal(sum(prices) / len(prices))
 
 
+def _get_balancer_pool_tokens_balances(
+    balancer_pool_id: str, web3: Web3, chain: str, block_number: Optional[int] = None
+) -> Optional[List[PoolBalance]]:
+    """
+    Returns all token balances for a given balancer pool
+    """
+    if not block_number:
+        block_number = web3.eth.block_number
+    vault_addr = BALANCER_CONTRACTS[chain]["BALANCER_VAULT_ADDRESS"]
+    balancer_vault = web3.eth.contract(
+        address=web3.toChecksumAddress(vault_addr), abi=get_abi("BalancerVault")
+    )
+
+    # Get all tokens in the pool and their balances
+    tokens, balances, _ = balancer_vault.functions.getPoolTokens(
+        balancer_pool_id
+    ).call(block_identifier=block_number)
+    token_balances = []
+    for index, token in enumerate(tokens):
+        token_contract = web3.eth.contract(
+            address=web3.toChecksumAddress(token), abi=get_abi("ERC20")
+        )
+        decimals = token_contract.functions.decimals().call()
+        balance = Decimal(balances[index]) / Decimal(10**decimals)
+        pool_token_balance = PoolBalance(
+            token_addr=token,
+            token_name=token_contract.functions.name().call(),
+            token_symbol=token_contract.functions.symbol().call(),
+            pool_id=balancer_pool_id,
+            balance=balance,
+        )
+        token_balances.append(pool_token_balance)
+    return token_balances
+
+
+def fetch_token_price_balgql(
+    token_addr: str,
+    chain: str,
+    start_date: Optional[date] = date.today(),
+    twap_days: Optional[int] = 14,
+) -> Optional[Decimal]:
+    """
+    Fetches 30 days of token prices from balancer graphql api and calculate twap over 14 days
+    """
+    start_date_ts = int(start_date.strftime("%s"))
+    end_date_ts = int((start_date - timedelta(days=twap_days)).strftime("%s"))
+    transport = RequestsHTTPTransport(
+        url=BAL_GQL_URL,
+        retries=2,
+        headers={"chainId": CHAIN_TO_CHAIN_ID_MAP[chain]} if chain != "mainnet" else {},
+    )
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    query = gql(BAL_GQL_QUERY.format(token_addr=token_addr.lower()))
+    result = client.execute(query)
+    # Sort result by timestamp desc
+    result["tokenGetPriceChartData"].sort(key=lambda x: x["timestamp"], reverse=True)
+    # Filter results so they are in between start_date and end_date timestamps
+    result_slice = [
+        item
+        for item in result["tokenGetPriceChartData"]
+        if start_date_ts >= item["timestamp"] >= end_date_ts
+    ]
+    # Sum all prices and divide by number of days
+    twap_price = Decimal(
+        sum([Decimal(item["price"]) for item in result_slice]) / len(result_slice)
+    )
+    return twap_price
+
+
 def get_twap_bpt_price(
     balancer_pool_id: str,
     chain: str,
     web3: Web3,
     start_date: Optional[date] = date.today(),
+    block_number: Optional[int] = None,
     twap_days: Optional[int] = 14,
 ) -> Optional[Decimal]:
     """
@@ -189,25 +197,23 @@ def get_twap_bpt_price(
         abi=get_abi("WeighedPool"),
     )
     decimals = weighed_pool_contract.functions.decimals().call()
-    total_supply = Decimal(weighed_pool_contract.functions.totalSupply().call() / 10**decimals)
+    total_supply = Decimal(
+        weighed_pool_contract.functions.totalSupply().call() / 10**decimals
+    )
     balances = _get_balancer_pool_tokens_balances(
-        balancer_pool_id=balancer_pool_id, web3=web3, chain=chain
+        balancer_pool_id=balancer_pool_id, web3=web3, chain=chain,
+        block_number=block_number or web3.eth.block_number
     )
     # Now let's calculate price with twap
     for balance in balances:
         balance.twap_price = fetch_token_price_balgql(
-            balance.token_addr, chain, twap_days
+            balance.token_addr, chain, start_date, twap_days
         )
     # Make sure we have all prices
     if not all([balance.twap_price for balance in balances]):
         return None
     # Now we have all prices, let's calculate total price
-    total_price = sum(
-        [
-            balance.balance * balance.twap_price
-            for balance in balances
-        ]
-    )
+    total_price = sum([balance.balance * balance.twap_price for balance in balances])
     return total_price / Decimal(total_supply)
 
 
