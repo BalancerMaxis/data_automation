@@ -223,15 +223,13 @@ def get_twap_bpt_price(
 if __name__ == "__main__":
     web3 = Web3(
         Web3.HTTPProvider(
-            "https://eth-mainnet.alchemyapi.io/v2/xBBFbqEE-Fd2pfXFv1VeNqdGZrt3UFis"
+            os.getenv("ARBNODEURL")
         )
     )
-    arb_block = 17938293  # 18 August 2023
-    arb_timestamp_now = web3.eth.get_block(arb_block).timestamp
     bpt_price = get_twap_bpt_price(
-        "0x639883476960a23b38579acfd7d71561a0f408cf000200000000000000000505",
-        "mainnet",
-        web3, start_date=date.fromtimestamp(arb_timestamp_now), block_number=arb_block
+        "0x32df62dc3aed2cd6224193052ce665dc181658410002000000000000000003bd",
+        "arbitrum",
+        web3,
     )
 
     print(bpt_price)
