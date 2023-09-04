@@ -8,11 +8,12 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Union
-from pycoingecko import CoinGeckoAPI
-from web3 import Web3
+
 from gql import Client
 from gql import gql
 from gql.transport.requests import RequestsHTTPTransport
+from pycoingecko import CoinGeckoAPI
+from web3 import Web3
 
 BALANCER_CONTRACTS = {
     "mainnet": {
@@ -198,7 +199,9 @@ def get_twap_bpt_price(
     )
     decimals = weighed_pool_contract.functions.decimals().call()
     total_supply = Decimal(
-        weighed_pool_contract.functions.totalSupply().call() / 10**decimals
+        weighed_pool_contract.functions.totalSupply().call(
+            block_identifier=block_number
+        ) / 10 ** decimals
     )
     balances = _get_balancer_pool_tokens_balances(
         balancer_pool_id=balancer_pool_id, web3=web3, chain=chain,
@@ -220,13 +223,15 @@ def get_twap_bpt_price(
 if __name__ == "__main__":
     web3 = Web3(
         Web3.HTTPProvider(
-            "https://arb-mainnet.g.alchemy.com/v2/9vSF9OOKeP0YalMNBvAegAtEYA3I9CEQ"
+            "https://eth-mainnet.alchemyapi.io/v2/xBBFbqEE-Fd2pfXFv1VeNqdGZrt3UFis"
         )
     )
+    arb_block = 17938293  # 18 August 2023
+    arb_timestamp_now = web3.eth.get_block(arb_block).timestamp
     bpt_price = get_twap_bpt_price(
-        "0x32df62dc3aed2cd6224193052ce665dc181658410002000000000000000003bd",
-        "arbitrum",
-        web3,
+        "0x639883476960a23b38579acfd7d71561a0f408cf000200000000000000000505",
+        "mainnet",
+        web3, start_date=date.fromtimestamp(arb_timestamp_now), block_number=arb_block
     )
 
     print(bpt_price)
