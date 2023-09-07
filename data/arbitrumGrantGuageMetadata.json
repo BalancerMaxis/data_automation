@@ -1,70 +1,5 @@
 [
   {
-    "gaugeAddress": "0x9ab40B6e1330Ce70B9e07cD691f281c1539944E6",
-    "fixedBoost": 1.75,
-    "capOverride": 20,
-    "metadata": {
-        "symbol": "bb-a-USD",
-        "boostReason": "Core - Boosted Stableswap",
-        "capOverrideReason": "bb-a-usd"
-
-    }
-  },
-  {
-    "gaugeAddress": "0xb12ADA23eE766bd6b596E2bE556ea2046758b87c",
-    "fixedBoost": 1.75,
-    "capOverride": 20,
-    "meta": {
-      "symbol": "rETH-bb-a-WETH-BPT - OLD",
-      "boostReason": "Core - LSD Stableswap"
-    }
-  },
-  {
-    "gaugeAddress": "0x4944b07977A42C15c6a06CF4e204e24c60564104",
-    "fixedBoost": 1.75,
-    "capOverride": 20,
-    "meta": {
-      "symbol": "rETH-bb-a-WETH-BPT",
-      "boostReason": "Core - LSD Stableswap"
-    }
-  },
-  {
-    "gaugeAddress": "0xDf464348c4EC2Bf0e5D6926b9f707c8e02301adf",
-    "fixedBoost": 1.75,
-    "capOverride": 20,
-    "meta": {
-      "symbol": "B-wstETH-WETH-Stable",
-      "boostReason": "Core - LSD Stableswap"
-    }
-  },
-  {
-    "gaugeAddress": "0xB5044FD339A7b858095324cC3F239C212956C179",
-    "fixedBoost": 1.75,
-    "capOverride": 20,
-    "meta": {
-      "symbol": "wstETH-bb-a-WETH-BPT",
-      "boostReason": "Core - LSD Stableswap"
-    }
-  },
-    {
-    "gaugeAddress": "0x80aed5C5C683FEC86817C98da334DD72424E7297",
-    "fixedBoost": 1.75,
-    "capOverride": 20,
-    "meta": {
-      "symbol": "wstETH-bb-a-WETH-BPT old",
-      "boostReason": "Core - LSD Stableswap"
-    }
-  },
-  {
-    "gaugeAddress": "0xCe540832f7c790d25345Aa19FB1Db3cfDEA04611",
-    "fixedBoost": 1.75,
-    "capOverride": 20,
-    "meta": {
-      "symbol": "alETH/rETH-BPT",
-      "boostReason": "Core - LSD Stableswap"
-    }
-  },
-  {
     "gaugeAddress": "0x8135d6AbFd42707A87A7b94c5CFA3529f9b432AD",
     "fixedBoost": 1.5,
     "meta": {
@@ -73,11 +8,39 @@
     }
   },
   {
-    "gaugeAddress": "0xacE0D479040231e3c6b17479cFd4444182d521d4",
+    "gaugeAddress": "0x00b9bcd17cB049739D25FD7f826caA2E23b05620",
     "fixedBoost": 1.75,
+    "capOverride": 20,
     "meta": {
-      "symbol": "DOLA-bbaUSD",
-      "boostReason": "Core - Boosted Stableswap"
+      "symbol": "rETH-WETH-BPT",
+      "boostReason": "Innovation - ve80/20"
+    }
+  },
+  {
+    "gaugeAddress": "0x671eD21480acf63b0AB7297b901505F5BccAfa9b",
+    "fixedBoost": 1.75,
+    "capOverride": 20,
+    "meta": {
+      "symbol": "ankrETH/wstETH-BPT",
+      "boostReason": "Innovation - ve80/20"
+    }
+  },
+  {
+    "gaugeAddress": "0x56c0626E6E3931af90EbB679A321225180d4b32B",
+    "fixedBoost": 1.75,
+    "capOverride": 20,
+    "meta": {
+      "symbol": "wstETH/rETH/cbETH",
+      "boostReason": "Innovation - ve80/20"
+    }
+  },
+  {
+    "gaugeAddress": "0xb6d101874B975083C76598542946Fe047f059066",
+    "fixedBoost": 1.75,
+    "capOverride": 20,
+    "meta": {
+      "symbol": "wstETH-WETH-BPT",
+      "boostReason": "Innovation - ve80/20"
     }
   }
 ]
