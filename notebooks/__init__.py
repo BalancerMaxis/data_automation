@@ -22,7 +22,7 @@ BLOCKS_GQL_URL_ARB = "https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum
 BLOCKS_BY_CHAIN = {
     "mainnet": "https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks",
     "arbitrum": "https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-one-blocks",
-    "polygon": "https://api.thegraph.com/subgraphs/name/blocklytics/polygon-pos-blocks",
+    "polygon": "https://api.thegraph.com/subgraphs/name/ianlapham/polygon-blocks",
 }
 
 VE_BAL_CONTRACT = "0xC128a9954e6c874eA3d62ce62B468bA073093F25"
@@ -268,14 +268,14 @@ def get_block_by_ts(timestamp: int, chain: str) -> int:
     query = gql(
         BLOCKS_QUERY.format(
             ts_gt=timestamp - 2000,
-            ts_lt=timestamp,
+            ts_lt=timestamp + 2000,
         )
     )
     client = Client(transport=transport, fetch_schema_from_transport=True)
     result = client.execute(query)
     # Sort result by timestamp desc
     result["blocks"].sort(key=lambda x: x["timestamp"], reverse=True)
-    return result["blocks"][0]["number"]
+    return int(result["blocks"][0]["number"])
 
 
 if __name__ == "__main__":
