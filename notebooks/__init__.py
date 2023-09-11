@@ -15,6 +15,16 @@ from gql.transport.requests import RequestsHTTPTransport
 from pycoingecko import CoinGeckoAPI
 from web3 import Web3
 
+BAL_GQL_URL = "https://api-v3.balancer.fi/"
+
+BLOCKS_GQL_URL_ARB = "https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-one-blocks"
+
+BLOCKS_BY_CHAIN = {
+    "mainnet": "https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks",
+    "arbitrum": "https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-one-blocks",
+    "polygon": "https://api.thegraph.com/subgraphs/name/blocklytics/polygon-pos-blocks",
+}
+
 VE_BAL_CONTRACT = "0xC128a9954e6c874eA3d62ce62B468bA073093F25"
 AURA_VEBAL_HOLDER = "0xaF52695E1bB01A16D33D7194C28C42b10e0Dbec2"
 
@@ -54,7 +64,15 @@ query {{
   }}
 }}
 """
-BAL_GQL_URL = "https://api-v3.balancer.fi/"
+
+BLOCKS_QUERY = """
+query {{
+    blocks(where:{{timestamp_gt: {ts_gt}, timestamp_lt: {ts_lt} }}) {{
+    number
+    timestamp
+    }}
+}}
+"""
 
 
 @dataclass
@@ -239,6 +257,27 @@ def calculate_aura_vebal_share(web3: Web3, block_number: int) -> Decimal:
     return Decimal(aura_vebal_balance) / Decimal(total_supply)
 
 
+def get_block_by_ts(timestamp: int, chain: str) -> int:
+    """
+    Returns block number for a given timestamp
+    """
+    transport = RequestsHTTPTransport(
+        url=BLOCKS_BY_CHAIN[chain],
+        retries=2,
+    )
+    query = gql(
+        BLOCKS_QUERY.format(
+            ts_gt=timestamp - 2000,
+            ts_lt=timestamp,
+        )
+    )
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    result = client.execute(query)
+    # Sort result by timestamp desc
+    result["blocks"].sort(key=lambda x: x["timestamp"], reverse=True)
+    return result["blocks"][0]["number"]
+
+
 if __name__ == "__main__":
     web3 = Web3(
         Web3.HTTPProvider(
@@ -251,4 +290,5 @@ if __name__ == "__main__":
         web3,
     )
 
-    print(bpt_price)
+    print(get_block_by_ts(1692318292, "arbitrum"))
+
