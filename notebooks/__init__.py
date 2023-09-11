@@ -14,6 +14,7 @@ from gql import gql
 from gql.transport.requests import RequestsHTTPTransport
 from pycoingecko import CoinGeckoAPI
 from web3 import Web3
+from web3.exceptions import BadFunctionCallOutput
 
 BAL_GQL_URL = "https://api-v3.balancer.fi/"
 
@@ -56,7 +57,7 @@ CHAIN_TO_CG_PLATFORM_MAP = {
 
 BAL_GQL_QUERY = """
 query {{
-  tokenGetPriceChartData(address:"{token_addr}", range: THIRTY_DAY)   
+  tokenGetPriceChartData(address:"{token_addr}", range: NINETY_DAY)   
    {{
     id
     price
@@ -188,6 +189,8 @@ def fetch_token_price_balgql(
         for item in result["tokenGetPriceChartData"]
         if start_date_ts >= item["timestamp"] >= end_date_ts
     ]
+    if len(result_slice) == 0:
+        return None
     # Sum all prices and divide by number of days
     twap_price = Decimal(
         sum([Decimal(item["price"]) for item in result_slice]) / len(result_slice)
@@ -219,11 +222,15 @@ def get_twap_bpt_price(
         abi=get_abi("WeighedPool"),
     )
     decimals = weighed_pool_contract.functions.decimals().call()
-    total_supply = Decimal(
-        weighed_pool_contract.functions.totalSupply().call(
-            block_identifier=block_number
-        ) / 10 ** decimals
-    )
+    try:
+        total_supply = Decimal(
+            weighed_pool_contract.functions.totalSupply().call(
+                block_identifier=block_number
+            ) / 10 ** decimals
+        )
+    except BadFunctionCallOutput:
+        print("Pool wasn't created at the block number")
+        return None
     balances = _get_balancer_pool_tokens_balances(
         balancer_pool_id=balancer_pool_id, web3=web3, chain=chain,
         block_number=block_number or web3.eth.block_number
@@ -280,15 +287,14 @@ def get_block_by_ts(timestamp: int, chain: str) -> int:
 
 if __name__ == "__main__":
     web3 = Web3(
-        Web3.HTTPProvider(
-            os.getenv("ARBNODEURL")
-        )
+        Web3.HTTPProvider("https://arb-mainnet.g.alchemy.com/v2/9vSF9OOKeP0YalMNBvAegAtEYA3I9CEQ")
     )
     bpt_price = get_twap_bpt_price(
-        "0x32df62dc3aed2cd6224193052ce665dc181658410002000000000000000003bd",
+        "0x4a2f6ae7f3e5d715689530873ec35593dc28951b000000000000000000000481",
         "arbitrum",
         web3,
+        block_number=113298642
     )
 
-    print(get_block_by_ts(1692318292, "arbitrum"))
+    # print(get_block_by_ts(1692318292, "arbitrum"))
 
