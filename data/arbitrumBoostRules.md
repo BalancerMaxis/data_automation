@@ -25,17 +25,14 @@ By default, all pools have a fixed boost of 1.  The following table describes si
 
 
 #### Ecosystem Integrations (1.5x)
- - Boosted pools https://docs.balancer.fi/concepts/pools/boosted.html pools with a boosted component that deposit idle liquidity into yield bearing strategies across the Arbitrum ecosystem
 - Yield splitting protocols (such as Pendle) will have extra ARB allocated to the supported pools that have TVL >$1m
 - Concentrated liquidity pool types by Gyroscope 
 - FXPool https://docs.xave.co/product-overview-1/amm Pools meant to facilitate low slippage trades for assets the trade at a known exchange rate
 - Balancer LP Tokens (BPT) with significant TVL as collateral on lending markets 
 
-
 #### Core Infra (1.75x)
-- LSTs
-- Boosted stablecoin pairs
-- 80/20 based governance/incentive systems.
+- Liquid Staked Tokens (LST)
+- 80/20 based governance and/or incentive systems.
 
 #### New and Novel AMM tech (2x)
 This is to help get attention to new Custom Pool types that have just launched.  
