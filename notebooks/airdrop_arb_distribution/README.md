@@ -6,7 +6,7 @@ Some pools have a boost factor, then ARB is distributed to all pools based on th
 
 Pools are capped at 10% of the total weekly $ARB, except for ETH based LSD stableswap pools which are capped at 20%
 
-Boosts and caps are defined per gauge in [arbitrumGrantGaugeMetadata.json](arbitrumGrantGuageMetadata.json)
+Boosts and caps are defined per gauge in [arbitrumGrantGaugeMetadata.json](https://github.com/BalancerMaxis/data_automation/blob/main/data/arbitrumGrantGuageMetadata.json)
 
 ## How boost is calculated
 
