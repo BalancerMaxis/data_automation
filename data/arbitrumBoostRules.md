@@ -25,14 +25,16 @@ By default, all pools have a fixed boost of 1.  The following table describes si
 
 
 #### Ecosystem Integrations (1.5x)
+- Core pools that receive bribes from fees based on governance and with at least 1 million dollars in TVL.
 - Yield splitting protocols (such as Pendle) will have extra ARB allocated to the supported pools that have TVL >$1m
 - Concentrated liquidity pool types by Gyroscope 
 - FXPool https://docs.xave.co/product-overview-1/amm Pools meant to facilitate low slippage trades for assets the trade at a known exchange rate
 - Balancer LP Tokens (BPT) with significant TVL as collateral on lending markets 
 
+
 #### Core Infra (1.75x)
-- Liquid Staked Tokens (LST)
-- 80/20 based governance and/or incentive systems.
+- LSTs
+- 80/20 based governance/incentive systems.
 
 #### New and Novel AMM tech (2x)
 This is to help get attention to new Custom Pool types that have just launched.  
