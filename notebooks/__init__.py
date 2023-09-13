@@ -268,6 +268,8 @@ def get_block_by_ts(timestamp: int, chain: str) -> int:
     """
     Returns block number for a given timestamp
     """
+    if timestamp > int(date.today().strftime("%s")):
+        timestamp = int(date.today().strftime("%s")) - 2000
     transport = RequestsHTTPTransport(
         url=BLOCKS_BY_CHAIN[chain],
         retries=2,
