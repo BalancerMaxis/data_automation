@@ -1,7 +1,7 @@
 import json
 import os
 from dataclasses import dataclass
-from datetime import date
+from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal
 from typing import Dict
@@ -96,9 +96,6 @@ class PoolBalance:
     token_symbol: str
     pool_id: str
     balance: Decimal
-    cg_token_id: str = ""
-    cg_token_price: float = 0.0
-    cg_token_prices: List[Decimal] = None
 
 
 def get_abi(contract_name: str) -> Union[Dict, List[Dict]]:
@@ -145,7 +142,7 @@ def _get_balancer_pool_tokens_balances(
 def fetch_token_price_balgql(
     token_addr: str,
     chain: str,
-    start_date: Optional[date] = date.today(),
+    start_date: Optional[datetime] = datetime.now(),
     twap_days: Optional[int] = 14,
 ) -> Optional[Decimal]:
     """
@@ -182,7 +179,7 @@ def get_twap_bpt_price(
     balancer_pool_id: str,
     chain: str,
     web3: Web3,
-    start_date: Optional[date] = date.today(),
+    start_date: Optional[datetime] = datetime.now(),
     block_number: Optional[int] = None,
     twap_days: Optional[int] = 14,
 ) -> Optional[Decimal]:
@@ -248,8 +245,8 @@ def get_block_by_ts(timestamp: int, chain: str) -> int:
     """
     Returns block number for a given timestamp
     """
-    if timestamp > int(date.today().strftime("%s")):
-        timestamp = int(date.today().strftime("%s")) - 2000
+    if timestamp > int(datetime.now().strftime("%s")):
+        timestamp = int(datetime.now().strftime("%s")) - 2000
     transport = RequestsHTTPTransport(
         url=BLOCKS_BY_CHAIN[chain],
         retries=2,
@@ -269,14 +266,12 @@ def get_block_by_ts(timestamp: int, chain: str) -> int:
 
 if __name__ == "__main__":
     web3 = Web3(
-        Web3.HTTPProvider("https://arb-mainnet.g.alchemy.com/v2/9vSF9OOKeP0YalMNBvAegAtEYA3I9CEQ")
+        Web3.HTTPProvider("https://rpc.gnosischain.com")
     )
     bpt_price = get_twap_bpt_price(
-        "0x4a2f6ae7f3e5d715689530873ec35593dc28951b000000000000000000000481",
-        "arbitrum",
+        "0xbad20c15a773bf03ab973302f61fabcea5101f0a000000000000000000000034",
+        "gnosis",
         web3,
-        block_number=113298642
+        block_number=29976541,
     )
-
-    # print(get_block_by_ts(1692318292, "arbitrum"))
-
+    print(bpt_price)

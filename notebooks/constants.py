@@ -47,10 +47,12 @@ POLYGON_CORE_POOLS = [
     "0xdc31233e09f3bf5bfe5c10da2014677c23b6894c000000000000000000000c23",
 ]
 
+GNOSIS_BALANCER_GRAPH_URL = (
+    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gnosis-chain-v2"
+)
 GNOSIS_CORE_POOLS = [
     "0xbad20c15a773bf03ab973302f61fabcea5101f0a000000000000000000000034",
 ]
-
 
 BASE_BALANCER_GRAPH_URL = (
     "https://api.studio.thegraph.com/query/24660/balancer-base-v2/version/latest"
