@@ -12,7 +12,6 @@ from typing import Union
 from gql import Client
 from gql import gql
 from gql.transport.requests import RequestsHTTPTransport
-from pycoingecko import CoinGeckoAPI
 from web3 import Web3
 from web3.exceptions import BadFunctionCallOutput
 
@@ -24,6 +23,8 @@ BLOCKS_BY_CHAIN = {
     "mainnet": "https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks",
     "arbitrum": "https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-one-blocks",
     "polygon": "https://api.thegraph.com/subgraphs/name/ianlapham/polygon-blocks",
+    "base": "https://api.studio.thegraph.com/query/48427/bleu-base-blocks/version/latest",
+    "gnosis": "https://api.thegraph.com/subgraphs/name/rebase-agency/gnosis-chain-blocks",
 }
 
 VE_BAL_CONTRACT = "0xC128a9954e6c874eA3d62ce62B468bA073093F25"
@@ -39,6 +40,15 @@ BALANCER_CONTRACTS = {
     "polygon": {
         "BALANCER_VAULT_ADDRESS": "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
     },
+    "base": {
+        "BALANCER_VAULT_ADDRESS": "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
+    },
+    "gnosis": {
+        "BALANCER_VAULT_ADDRESS": "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
+    },
+    "avalanche": {
+        "BALANCER_VAULT_ADDRESS": "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
+    },
 }
 
 CHAIN_TO_CHAIN_ID_MAP = {
@@ -46,6 +56,9 @@ CHAIN_TO_CHAIN_ID_MAP = {
     "arbitrum": "42161",
     "polygon": "137",
     "optimism": "10",
+    "base": "8453",
+    "gnosis": "100",
+    "avalanche": "43114",
 }
 
 CHAIN_TO_CG_PLATFORM_MAP = {
@@ -94,39 +107,6 @@ def get_abi(contract_name: str) -> Union[Dict, List[Dict]]:
         return json.load(f)
 
 
-def get_cg_twap_price(
-    token_addr: str,
-    chain: str,
-    start_date: Optional[date] = date.today(),
-    twap_days: Optional[int] = 14,
-) -> Optional[Decimal]:
-    """
-    Fetches token price from coingecko api and calculate twap over X days
-    """
-    cg = CoinGeckoAPI()
-    coin_list = cg.get_coins_list(include_platform=True)
-    chain_to_cg_platform = CHAIN_TO_CG_PLATFORM_MAP[chain]
-    cg_token_id = None
-    for cg_coin in coin_list:
-        _token_address = cg_coin["platforms"].get(chain_to_cg_platform)
-        if not _token_address:
-            continue
-        if Web3.toChecksumAddress(_token_address) == token_addr:
-            cg_token_id = cg_coin["id"]
-            break
-    if not cg_token_id:
-        return None
-    # Now we have cg_token_id, let's fetch prices
-    prices = []
-    for i in range(twap_days):
-        desired_date = start_date - timedelta(days=i)
-        _price = cg.get_coin_history_by_id(
-            cg_token_id, date=desired_date.strftime("%d-%m-%Y")
-        )
-        prices.append(_price["market_data"]["current_price"]["usd"])
-    return Decimal(sum(prices) / len(prices))
-
-
 def _get_balancer_pool_tokens_balances(
     balancer_pool_id: str, web3: Web3, chain: str, block_number: Optional[int] = None
 ) -> Optional[List[PoolBalance]]:
@@ -137,7 +117,7 @@ def _get_balancer_pool_tokens_balances(
         block_number = web3.eth.block_number
     vault_addr = BALANCER_CONTRACTS[chain]["BALANCER_VAULT_ADDRESS"]
     balancer_vault = web3.eth.contract(
-        address=web3.toChecksumAddress(vault_addr), abi=get_abi("BalancerVault")
+        address=web3.to_checksum_address(vault_addr), abi=get_abi("BalancerVault")
     )
 
     # Get all tokens in the pool and their balances
@@ -147,7 +127,7 @@ def _get_balancer_pool_tokens_balances(
     token_balances = []
     for index, token in enumerate(tokens):
         token_contract = web3.eth.contract(
-            address=web3.toChecksumAddress(token), abi=get_abi("ERC20")
+            address=web3.to_checksum_address(token), abi=get_abi("ERC20")
         )
         decimals = token_contract.functions.decimals().call()
         balance = Decimal(balances[index]) / Decimal(10**decimals)
@@ -211,14 +191,14 @@ def get_twap_bpt_price(
     total supply of BPT token
     """
     balancer_vault = web3.eth.contract(
-        address=web3.toChecksumAddress(
+        address=web3.to_checksum_address(
             BALANCER_CONTRACTS[chain]["BALANCER_VAULT_ADDRESS"]
         ),
         abi=get_abi("BalancerVault"),
     )
     balancer_pool_address, _ = balancer_vault.functions.getPool(balancer_pool_id).call()
     weighed_pool_contract = web3.eth.contract(
-        address=web3.toChecksumAddress(balancer_pool_address),
+        address=web3.to_checksum_address(balancer_pool_address),
         abi=get_abi("WeighedPool"),
     )
     decimals = weighed_pool_contract.functions.decimals().call()
@@ -253,7 +233,7 @@ def calculate_aura_vebal_share(web3: Web3, block_number: int) -> Decimal:
     Function that calculate veBAL share of AURA auraBAL from the total supply of veBAL
     """
     ve_bal_contract = web3.eth.contract(
-        address=web3.toChecksumAddress(VE_BAL_CONTRACT), abi=get_abi("ERC20")
+        address=web3.to_checksum_address(VE_BAL_CONTRACT), abi=get_abi("ERC20")
     )
     total_supply = ve_bal_contract.functions.totalSupply().call(
         block_identifier=block_number
