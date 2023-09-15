@@ -25,6 +25,7 @@ BLOCKS_BY_CHAIN = {
     "polygon": "https://api.thegraph.com/subgraphs/name/ianlapham/polygon-blocks",
     "base": "https://api.studio.thegraph.com/query/48427/bleu-base-blocks/version/latest",
     "gnosis": "https://api.thegraph.com/subgraphs/name/rebase-agency/gnosis-chain-blocks",
+    "avalanche": "https://api.thegraph.com/subgraphs/name/iliaazhel/avalanche-blocks",
 }
 
 VE_BAL_CONTRACT = "0xC128a9954e6c874eA3d62ce62B468bA073093F25"
@@ -59,13 +60,6 @@ CHAIN_TO_CHAIN_ID_MAP = {
     "base": "8453",
     "gnosis": "100",
     "avalanche": "43114",
-}
-
-CHAIN_TO_CG_PLATFORM_MAP = {
-    "mainnet": "ethereum",
-    "arbitrum": "arbitrum-one",
-    "polygon": "polygon-pos",
-    "optimism": "optimistic-ethereum",
 }
 
 BAL_GQL_QUERY = """
