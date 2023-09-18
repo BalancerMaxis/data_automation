@@ -82,6 +82,61 @@ query {{
 }}
 """
 
+BAL_GET_VOTING_LIST_QUERY = """
+query VeBalGetVotingList {
+  veBalGetVotingList
+  {
+    id
+    address
+    chain
+    type
+    symbol
+    gauge {
+      address
+      isKilled
+      relativeWeightCap
+      addedTimestamp
+      childGaugeAddress
+    }
+    tokens {
+      address
+      logoURI
+      symbol
+      weight
+    }
+  }
+}
+"""
+
+POOLS_SNAPSHOTS_QUERY = """
+{{
+  poolSnapshots(
+    first: {first}
+    skip: {skip}
+    orderBy: timestamp
+    orderDirection: desc
+    block: {{ number: {block} }}
+    where: {{ protocolFee_not: null }}
+  ) {{
+    pool {{
+      address
+      id
+      symbol
+      totalProtocolFeePaidInBPT
+      tokens {{
+        symbol
+        address
+        paidProtocolFees
+      }}
+    }}
+    timestamp
+    protocolFee
+    swapFees
+    swapVolume
+    liquidity
+  }}
+}}
+"""
 
 @dataclass
 class PoolBalance:
@@ -96,6 +151,21 @@ def get_abi(contract_name: str) -> Union[Dict, List[Dict]]:
     project_root_dir = os.path.abspath(os.path.dirname(__file__))
     with open(f"{project_root_dir}/abi/{contract_name}.json") as f:
         return json.load(f)
+
+
+def fetch_all_pools_info(chain: str) -> List[Dict]:
+    """
+    Fetches all pools info from balancer graphql api
+    """
+    transport = RequestsHTTPTransport(
+        url=BAL_GQL_URL,
+        retries=2,
+        headers={"chainId": CHAIN_TO_CHAIN_ID_MAP[chain]} if chain != "mainnet" else {},
+    )
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    query = gql(BAL_GET_VOTING_LIST_QUERY)
+    result = client.execute(query)
+    return result['veBalGetVotingList']
 
 
 def _get_balancer_pool_tokens_balances(
