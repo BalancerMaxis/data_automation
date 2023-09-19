@@ -54,8 +54,23 @@ POOLS_SNAPSHOTS_QUERY = """
 
 CURRENT_YEAR = 2023
 
-ARBITRUM_TO_USD_POOL = 10_000  # Constant pool of arb to usd
-ARBITRUM_TO_DISTRIBUTE = (92_500 - ARBITRUM_TO_USD_POOL) * 2 # 92.k arb to distribute to the gauges per  2 week epoch
+ARBITRUM_BONUS = 30_000  # Constant pool of bonus arb
+ARBITRUM_TOTAL = 200_000
+ARBITRUM_TO_DISTRIBUTE = ARBITRUM_TOTAL - ARBITRUM_BONUS  # 100k weekly - bonus
+
 VOTE_CAP_IN_PERCENT = 10  # 10% cap on any single gauge
-ARB_GAUGE_WITH_BONUS = Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442B")
+ARB_GAUGE_WITH_BONUS = Web3.to_checksum_address(
+    "0xa14453084318277b11d38FbE05D857A4f647442B"
+)
 ARB_ROOT_GAUGE = Web3.to_checksum_address("0xBb1a15dfd849bc5a6F33C002999c8953aFA626Ad")
+
+# gauge: poolAddress
+GAUGES_WITH_BONUSES = {
+    Web3.to_checksum_address(
+        "0xBb1a15dfd849bc5a6F33C002999c8953aFA626Ad"
+    ): Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442B"),
+    # TODO: Use real addr once pool is up:
+    Web3.to_checksum_address(
+        "0xBb1a15dfd849bc5a6F33C002999c8953aFA626Af"
+    ): Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442C"),
+}
