@@ -68,9 +68,14 @@ ARB_ROOT_GAUGE = Web3.to_checksum_address("0xBb1a15dfd849bc5a6F33C002999c8953aFA
 GAUGES_WITH_BONUSES = {
     Web3.to_checksum_address(
         "0xBb1a15dfd849bc5a6F33C002999c8953aFA626Ad"
-    ): Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442B"),
-    # TODO: Use real addr once pool is up:
+    ): {
+        'recipientGauge': Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442B"),
+        'symbol': '4POOL-BPT',
+    },
     Web3.to_checksum_address(
-        "0xBb1a15dfd849bc5a6F33C002999c8953aFA626Af"
-    ): Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442C"),
+        "0xa8Bb331a84032b156E5c670152A5Bd48f5DeC784"
+    ): {
+        'recipientGauge': Web3.to_checksum_address("0x138E37c3885169DB38e046D5c814C0e95566566c"),
+        'symbol': 'wstETH-4POOL',
+    },
 }
