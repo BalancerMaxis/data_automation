@@ -1,6 +1,6 @@
 ## Arbitrum Aidrop distribution program
 
-Distribution program pays out 92.5k ARB per week based on veBAL voting for pools on Arbitrum.
+Distribution program pays out 100k ARB per week based on veBAL voting for pools on Arbitrum.
 
 Some pools have a boost factor, then ARB is distributed to all pools based on their relative boosted weight.
 
