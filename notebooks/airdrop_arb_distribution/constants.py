@@ -55,7 +55,7 @@ POOLS_SNAPSHOTS_QUERY = """
 CURRENT_YEAR = 2023
 
 
-ARBITRUM_TO_DISTRIBUTE = 80_000  # 80k arb to distribute to the gauges from airdrop
+ARBITRUM_TO_DISTRIBUTE = 70_000  # 70k arb to distribute to the gauges from airdrop
 ARBITRUM_TO_USD_POOL = 10_000  # Constant pool of arb to usd
 VOTE_CAP_IN_PERCENT = 10  # 10% cap on any single gauge
 ARB_GAUGE_WITH_BONUS = Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442B")
