@@ -54,8 +54,8 @@ POOLS_SNAPSHOTS_QUERY = """
 
 CURRENT_YEAR = 2023
 
-ARBITRUM_BONUS = 30_000  # Constant pool of bonus arb
-ARBITRUM_TOTAL = 200_000
+ARBITRUM_BONUS = 22_500  # Constant pool of bonus arb
+ARBITRUM_TOTAL = 150_000
 ARBITRUM_TO_DISTRIBUTE = ARBITRUM_TOTAL - ARBITRUM_BONUS  # 100k weekly - bonus
 
 VOTE_CAP_IN_PERCENT = 10  # 10% cap on any single gauge
