@@ -74,33 +74,33 @@ CORE_POOLS[Chains.AVALANCHE.value] = [
 ]
 
 
-web3_instances = Munch()
-web3_instances[Chains.MAINNET.value] = Web3(Web3.HTTPProvider(os.environ["ETHNODEURL"]))
+WEB3_INSTANCES = Munch()
+WEB3_INSTANCES[Chains.MAINNET.value] = Web3(Web3.HTTPProvider(os.environ["ETHNODEURL"]))
 poly_web3 = Web3(Web3.HTTPProvider("https://polygon-rpc.com"))
 poly_web3.middleware_onion.inject(geth_poa_middleware, layer=0)
-web3_instances[Chains.POLYGON.value] = poly_web3
-web3_instances[Chains.ARBITRUM.value] = Web3(Web3.HTTPProvider(os.environ["ARBNODEURL"]))
-web3_instances[Chains.GNOSIS.value] = Web3(Web3.HTTPProvider(os.environ["GNOSISNODEURL"]))
-web3_instances[Chains.BASE.value] = Web3(Web3.HTTPProvider(os.environ["BASENODEURL"]))
-web3_instances[Chains.AVALANCHE.value] = Web3(Web3.HTTPProvider(os.environ["AVALANCHENODEURL"]))
+WEB3_INSTANCES[Chains.POLYGON.value] = poly_web3
+WEB3_INSTANCES[Chains.ARBITRUM.value] = Web3(Web3.HTTPProvider(os.environ["ARBNODEURL"]))
+WEB3_INSTANCES[Chains.GNOSIS.value] = Web3(Web3.HTTPProvider(os.environ["GNOSISNODEURL"]))
+WEB3_INSTANCES[Chains.BASE.value] = Web3(Web3.HTTPProvider(os.environ["BASENODEURL"]))
+WEB3_INSTANCES[Chains.AVALANCHE.value] = Web3(Web3.HTTPProvider(os.environ["AVALANCHENODEURL"]))
 
 # Define constants for Arbitrum:
-balancer_graph_urls = Munch()
-balancer_graph_urls[Chains.ARBITRUM.value] = (
+BALANCER_GRAPH_URLS = Munch()
+BALANCER_GRAPH_URLS[Chains.ARBITRUM.value] = (
     "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-arbitrum-v2"
 )
-balancer_graph_urls[Chains.MAINNET.value] = (
+BALANCER_GRAPH_URLS[Chains.MAINNET.value] = (
     "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2"
 )
-balancer_graph_urls[Chains.POLYGON.value] = (
+BALANCER_GRAPH_URLS[Chains.POLYGON.value] = (
     "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2"
 )
-balancer_graph_urls[Chains.GNOSIS.value] = (
+BALANCER_GRAPH_URLS[Chains.GNOSIS.value] = (
     "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gnosis-chain-v2"
 )
-balancer_graph_urls[Chains.BASE.value] = (
+BALANCER_GRAPH_URLS[Chains.BASE.value] = (
     "https://api.studio.thegraph.com/query/24660/balancer-base-v2/version/latest"
 )
-balancer_graph_urls[Chains.AVALANCHE.value] = (
+BALANCER_GRAPH_URLS[Chains.AVALANCHE.value] = (
     "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-avalanche-v2"
 )
