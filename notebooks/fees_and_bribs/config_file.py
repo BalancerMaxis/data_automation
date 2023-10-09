@@ -1,9 +1,13 @@
 import os
+from decimal import Decimal
 from enum import Enum
 
 from munch import Munch
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
+
+FEE_TAKEN = Decimal(0.5)  # 50% goes to fees
+MIN_AURA_BRIB = Decimal(500)
 
 
 # Copied from https://raw.githubusercontent.com/BalancerMaxis/bal_addresses/main/extras/chains.json
@@ -11,11 +15,17 @@ class Chains(Enum):
     POLYGON = "polygon"
     MAINNET = "mainnet"
     ARBITRUM = "arbitrum"
-    OPTIMISM = "optimism"
+    # OPTIMISM = "optimism"
     GNOSIS = "gnosis"
-    ZKEVM = "zkevm"
     AVALANCHE = "avalanche"
     BASE = "base"
+
+
+# Rerouting bribs:
+REROUTE_CONFIG = Munch()
+REROUTE_CONFIG[Chains.MAINNET.value] = {
+    'SOURCE_POOL': 'DESTINATION_POOL',
+}
 
 
 CORE_POOLS = Munch()
@@ -73,3 +83,24 @@ web3_instances[Chains.ARBITRUM.value] = Web3(Web3.HTTPProvider(os.environ["ARBNO
 web3_instances[Chains.GNOSIS.value] = Web3(Web3.HTTPProvider(os.environ["GNOSISNODEURL"]))
 web3_instances[Chains.BASE.value] = Web3(Web3.HTTPProvider(os.environ["BASENODEURL"]))
 web3_instances[Chains.AVALANCHE.value] = Web3(Web3.HTTPProvider(os.environ["AVALANCHENODEURL"]))
+
+# Define constants for Arbitrum:
+balancer_graph_urls = Munch()
+balancer_graph_urls[Chains.ARBITRUM.value] = (
+    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-arbitrum-v2"
+)
+balancer_graph_urls[Chains.MAINNET.value] = (
+    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2"
+)
+balancer_graph_urls[Chains.POLYGON.value] = (
+    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2"
+)
+balancer_graph_urls[Chains.GNOSIS.value] = (
+    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gnosis-chain-v2"
+)
+balancer_graph_urls[Chains.BASE.value] = (
+    "https://api.studio.thegraph.com/query/24660/balancer-base-v2/version/latest"
+)
+balancer_graph_urls[Chains.AVALANCHE.value] = (
+    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-avalanche-v2"
+)
