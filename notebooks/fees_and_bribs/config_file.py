@@ -76,7 +76,8 @@ CORE_POOLS[Chains.AVALANCHE.value] = [
 
 WEB3_INSTANCES = Munch()
 WEB3_INSTANCES[Chains.MAINNET.value] = Web3(Web3.HTTPProvider(os.environ["ETHNODEURL"]))
-poly_web3 = Web3(Web3.HTTPProvider("https://polygon-rpc.com"))
+# poly_web3 = Web3(Web3.HTTPProvider("https://polygon-rpc.com"))
+poly_web3 = Web3(Web3.HTTPProvider(os.environ["POLYNODEURL"]))
 poly_web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 WEB3_INSTANCES[Chains.POLYGON.value] = poly_web3
 WEB3_INSTANCES[Chains.ARBITRUM.value] = Web3(Web3.HTTPProvider(os.environ["ARBNODEURL"]))
