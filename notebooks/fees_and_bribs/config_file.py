@@ -23,8 +23,8 @@ class Chains(Enum):
 
 # Rerouting bribs:
 REROUTE_CONFIG = Munch()
-REROUTE_CONFIG[Chains.MAINNET.value] = {
-    'SOURCE_POOL': 'DESTINATION_POOL',
+REROUTE_CONFIG[Chains.BASE.value] = {
+    "0xc771c1a5905420daec317b154eb13e4198ba97d0000000000000000000000023": "0xfb4c2e6e6e27b5b4a07a36360c89ede29bb3c9b6000000000000000000000026",
 }
 
 
@@ -44,6 +44,8 @@ CORE_POOLS[Chains.MAINNET.value] = [
     "0x3ff3a210e57cfe679d9ad1e9ba6453a716c56a2e0002000000000000000005d5",
     "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
     "0x36be1e97ea98ab43b4debf92742517266f5731a3000200000000000000000466",
+    "0x42ed016f826165c2e5976fe5bc3df540c5ad0af700000000000000000000058b",
+    "0x37b18b10ce5635a84834b26095a0ae5639dcb7520000000000000000000005cb",
 ]
 CORE_POOLS[Chains.POLYGON.value] = [
     "0xf0ad209e2e969eaaa8c882aac71f02d8a047d5c2000200000000000000000b49",
@@ -80,28 +82,34 @@ WEB3_INSTANCES[Chains.MAINNET.value] = Web3(Web3.HTTPProvider(os.environ["ETHNOD
 poly_web3 = Web3(Web3.HTTPProvider(os.environ["POLYNODEURL"]))
 poly_web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 WEB3_INSTANCES[Chains.POLYGON.value] = poly_web3
-WEB3_INSTANCES[Chains.ARBITRUM.value] = Web3(Web3.HTTPProvider(os.environ["ARBNODEURL"]))
-WEB3_INSTANCES[Chains.GNOSIS.value] = Web3(Web3.HTTPProvider(os.environ["GNOSISNODEURL"]))
+WEB3_INSTANCES[Chains.ARBITRUM.value] = Web3(
+    Web3.HTTPProvider(os.environ["ARBNODEURL"])
+)
+WEB3_INSTANCES[Chains.GNOSIS.value] = Web3(
+    Web3.HTTPProvider(os.environ["GNOSISNODEURL"])
+)
 WEB3_INSTANCES[Chains.BASE.value] = Web3(Web3.HTTPProvider(os.environ["BASENODEURL"]))
-WEB3_INSTANCES[Chains.AVALANCHE.value] = Web3(Web3.HTTPProvider(os.environ["AVALANCHENODEURL"]))
+WEB3_INSTANCES[Chains.AVALANCHE.value] = Web3(
+    Web3.HTTPProvider(os.environ["AVALANCHENODEURL"])
+)
 
 # Define constants for Arbitrum:
 BALANCER_GRAPH_URLS = Munch()
-BALANCER_GRAPH_URLS[Chains.ARBITRUM.value] = (
-    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-arbitrum-v2"
-)
-BALANCER_GRAPH_URLS[Chains.MAINNET.value] = (
-    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2"
-)
-BALANCER_GRAPH_URLS[Chains.POLYGON.value] = (
-    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2"
-)
-BALANCER_GRAPH_URLS[Chains.GNOSIS.value] = (
-    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gnosis-chain-v2"
-)
-BALANCER_GRAPH_URLS[Chains.BASE.value] = (
-    "https://api.studio.thegraph.com/query/24660/balancer-base-v2/version/latest"
-)
-BALANCER_GRAPH_URLS[Chains.AVALANCHE.value] = (
-    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-avalanche-v2"
-)
+BALANCER_GRAPH_URLS[
+    Chains.ARBITRUM.value
+] = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-arbitrum-v2"
+BALANCER_GRAPH_URLS[
+    Chains.MAINNET.value
+] = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2"
+BALANCER_GRAPH_URLS[
+    Chains.POLYGON.value
+] = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2"
+BALANCER_GRAPH_URLS[
+    Chains.GNOSIS.value
+] = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gnosis-chain-v2"
+BALANCER_GRAPH_URLS[
+    Chains.BASE.value
+] = "https://api.studio.thegraph.com/query/24660/balancer-base-v2/version/latest"
+BALANCER_GRAPH_URLS[
+    Chains.AVALANCHE.value
+] = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-avalanche-v2"
