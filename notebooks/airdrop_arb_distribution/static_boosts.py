@@ -42,5 +42,14 @@ STATIC_BOOST = [
       "symbol": "wstETH-WETH-BPT",
       "boostReason": "Innovation - ve80/20"
     }
+  },
+  {
+    "gaugeAddress": "0x49f530b45Ae792CDF5Cbd5D25C5a9b9e59C6c3B8",
+    "fixedBoost": 1.5,
+    "capOverride": 20,
+    "meta": {
+      "symbol": "wstETH/rETH/sfrxETH/",
+      "boostReason": "Innovation - ve80/20"
+    }
   }
 ]
