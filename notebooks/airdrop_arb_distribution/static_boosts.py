@@ -51,5 +51,23 @@ STATIC_BOOST = [
       "symbol": "wstETH/rETH/sfrxETH/",
       "boostReason": "Innovation - ve80/20"
     }
+  },
+  {
+    "gaugeAddress": "0xA8d4b31225BD6FAF1363DB5A0AB6c016894985d1",
+    "fixedBoost": 1.0,
+    "capOverride": 8,
+    "meta": {
+      "symbol": "wstETH-GOLD-USDC",
+      "boostReason": "BIP agreement"
+    }
+  },
+  {
+    "gaugeAddress": "0x86Cf58bD7A64f2304227d1a490660D2954dB4a91",
+    "fixedBoost": 1.0,
+    "capOverride": 2,
+    "meta": {
+      "symbol": "GOLD-BAL-AURA-wstETH",
+      "boostReason": "BIP agreement"
+    }
   }
 ]
