@@ -1,5 +1,5 @@
 {
-      "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
+      "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
       "value": "0",
       "data": null,
       "contractMethod": {
@@ -24,8 +24,8 @@
         "payable": false
       },
       "contractInputsValues": {
-        "gauge": "0x157a6dFD77F527efef0b36b5B2156B1aB710E32F",
-        "reward_token": "0xbeFD5C25A59ef2C1316c5A4944931171F30Cd3E4",
-        "amount": "1"
+        "gauge": "",
+        "reward_token": "",
+        "amount": ""
       }
     }
