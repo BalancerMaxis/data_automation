@@ -6,7 +6,7 @@
         "name": "Transactions Batch",
         "description": "",
         "txBuilderVersion": "1.16.1",
-        "createdFromSafeAddress": "0xc38c5f97B34E175FFd35407fc91a937300E33860",
+        "createdFromSafeAddress": "0xb6BfF54589f269E248f99D5956f1fDD5b014D50e",
         "createdFromOwnerAddress": "",
         "checksum": ""
     },
@@ -59,8 +59,8 @@
                 "payable": false
             },
             "contractInputsValues": {
-                "gaugeAddresses": "[0x2eB5661002b68EBE887d29d415c3A3b52536912C,0xcf9f895296F5e1D66a7D4dcf1d92e1B435E9f999,0x04fc019017eD3F921D5ec11fFf84B870744BA0d1,0x159be31493C26F8F924b3A2a7F428C2f41247e83,0xb438c6cc53315FfA3fcD1bc8b27d6c3155b0B56A,0xeF767E740D83d410794519c2F93Db32e44359a5C,0x972539E9d340a915775C004715f286a166F067Fd,0xcF853F14EF6111435Cb39c0C43C66366cc6300F1,0x96056DF5a61B758005a219a052D72085C45df92c,0xd956246EA5b06DEa930F0A7feC1FFf000436e3f2,0x089a2E069700B0f2B16f69A6e02b01818ce22e7d,0x011417BBED6FC9cefF36C032D431b0eFcBA7f8B3,0xD7a5122a4e88EC9fBE94301A0Bff6114ddFe5d4B,0x82d2c7B67Eaa5028c89BE86CeA8e1DF5bd2119A1,0x260cbb867359a1084eC97de4157d06ca74e89415,0xfC745035F31BCbaEb2D1a89aA9171495c671F6cE,0xa14453084318277b11d38FbE05D857A4f647442B,0xd6B875d62c2661eaB66472F36c672e4B512f1135,0xc3522B0A58d9f12f33E542FC3c3C051b4AF01c83,0x138E37c3885169DB38e046D5c814C0e95566566c]",
-                "amountsPerPeriod": "[17142900000000001455191,8571450000000000727595,500025141947536333,1714289999999999963620,296488913629105809377,4456332107875401561614,1636919602712390769738,6857159999999999854480,640962492015807129064,7254528851238980678317,134243928646242011382,65248665670188302101,5586404109337237969157,5480489511873395713337,1647670955297626960600,5375988853450424358015,5709451632314545349800,6702238633545990523998,816231717250696306109,5625000000000000000000]",
+                "gaugeAddresses": "[0x2eB5661002b68EBE887d29d415c3A3b52536912C,0xcf9f895296F5e1D66a7D4dcf1d92e1B435E9f999,0x04fc019017eD3F921D5ec11fFf84B870744BA0d1,0x159be31493C26F8F924b3A2a7F428C2f41247e83,0xeF767E740D83d410794519c2F93Db32e44359a5C,0xb438c6cc53315FfA3fcD1bc8b27d6c3155b0B56A,0x972539E9d340a915775C004715f286a166F067Fd,0xcF853F14EF6111435Cb39c0C43C66366cc6300F1,0x96056DF5a61B758005a219a052D72085C45df92c,0xd956246EA5b06DEa930F0A7feC1FFf000436e3f2,0x089a2E069700B0f2B16f69A6e02b01818ce22e7d,0x011417BBED6FC9cefF36C032D431b0eFcBA7f8B3,0xD7a5122a4e88EC9fBE94301A0Bff6114ddFe5d4B,0x82d2c7B67Eaa5028c89BE86CeA8e1DF5bd2119A1,0x260cbb867359a1084eC97de4157d06ca74e89415,0xfC745035F31BCbaEb2D1a89aA9171495c671F6cE,0xa14453084318277b11d38FbE05D857A4f647442B,0xd6B875d62c2661eaB66472F36c672e4B512f1135,0xc3522B0A58d9f12f33E542FC3c3C051b4AF01c83,0x138E37c3885169DB38e046D5c814C0e95566566c]",
+                "amountsPerPeriod": "[17142892000000003463355,8571446000000001731677,500548876913862628,1714289200000000164436,4465401953794893415761,287525957683813658150,1636900818128218134006,6857156800000000657746,640955479706874825751,7254447022638913949776,134242439582131197539,65257856168902719673,5586342276292757560440,5480439755903590594243,1647752700934539006993,5375988141478197576361,5709473217130772354721,6702224573858735311659,816223257820742333024,5625000000000000000000]",
                 "maxPeriods": "[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
             }
         },
@@ -97,11 +97,11 @@
             },
             "contractInputsValues": {
                 "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
-                "amount": "171429000000000000000000"
+                "amount": "171428920000000009699328"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -128,11 +128,11 @@
             "contractInputsValues": {
                 "gauge": "0x2eB5661002b68EBE887d29d415c3A3b52536912C",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "17142900000000000000000"
+                "amount": "17142892000000003463355"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -159,11 +159,11 @@
             "contractInputsValues": {
                 "gauge": "0xcf9f895296F5e1D66a7D4dcf1d92e1B435E9f999",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "8571450000000000727595"
+                "amount": "8571446000000001731677"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -190,11 +190,11 @@
             "contractInputsValues": {
                 "gauge": "0x04fc019017eD3F921D5ec11fFf84B870744BA0d1",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "500025141947536333"
+                "amount": "500548876913862628"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -221,42 +221,11 @@
             "contractInputsValues": {
                 "gauge": "0x159be31493C26F8F924b3A2a7F428C2f41247e83",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "1714289999999999963620"
+                "amount": "1714289200000000164436"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-            "value": "0",
-            "data": null,
-            "contractMethod": {
-                "inputs": [
-                    {
-                        "name": "gauge",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "reward_token",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "amount",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ],
-                "name": "manualDeposit",
-                "payable": false
-            },
-            "contractInputsValues": {
-                "gauge": "0xb438c6cc53315FfA3fcD1bc8b27d6c3155b0B56A",
-                "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "296488913629105809377"
-            }
-        },
-        {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -283,11 +252,42 @@
             "contractInputsValues": {
                 "gauge": "0xeF767E740D83d410794519c2F93Db32e44359a5C",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "4456332107875401561614"
+                "amount": "4465401953794893415761"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
+            "value": "0",
+            "data": null,
+            "contractMethod": {
+                "inputs": [
+                    {
+                        "name": "gauge",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "reward_token",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ],
+                "name": "manualDeposit",
+                "payable": false
+            },
+            "contractInputsValues": {
+                "gauge": "0xb438c6cc53315FfA3fcD1bc8b27d6c3155b0B56A",
+                "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+                "amount": "287525957683813658150"
+            }
+        },
+        {
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -314,11 +314,11 @@
             "contractInputsValues": {
                 "gauge": "0x972539E9d340a915775C004715f286a166F067Fd",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "1636919602712390769738"
+                "amount": "1636900818128218134006"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -345,11 +345,11 @@
             "contractInputsValues": {
                 "gauge": "0xcF853F14EF6111435Cb39c0C43C66366cc6300F1",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "6857159999999999854480"
+                "amount": "6857156800000000657746"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -376,11 +376,11 @@
             "contractInputsValues": {
                 "gauge": "0x96056DF5a61B758005a219a052D72085C45df92c",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "640962492015807129064"
+                "amount": "640955479706874825751"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -407,11 +407,11 @@
             "contractInputsValues": {
                 "gauge": "0xd956246EA5b06DEa930F0A7feC1FFf000436e3f2",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "7254528851238980678317"
+                "amount": "7254447022638913949776"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -438,11 +438,11 @@
             "contractInputsValues": {
                 "gauge": "0x089a2E069700B0f2B16f69A6e02b01818ce22e7d",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "134243928646242011382"
+                "amount": "134242439582131197539"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -469,11 +469,11 @@
             "contractInputsValues": {
                 "gauge": "0x011417BBED6FC9cefF36C032D431b0eFcBA7f8B3",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "65248665670188302101"
+                "amount": "65257856168902719673"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -500,11 +500,11 @@
             "contractInputsValues": {
                 "gauge": "0xD7a5122a4e88EC9fBE94301A0Bff6114ddFe5d4B",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "5586404109337237969157"
+                "amount": "5586342276292757560440"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -531,11 +531,11 @@
             "contractInputsValues": {
                 "gauge": "0x82d2c7B67Eaa5028c89BE86CeA8e1DF5bd2119A1",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "5480489511873395713337"
+                "amount": "5480439755903590594243"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -562,11 +562,11 @@
             "contractInputsValues": {
                 "gauge": "0x260cbb867359a1084eC97de4157d06ca74e89415",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "1647670955297626960600"
+                "amount": "1647752700934539006993"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -593,11 +593,11 @@
             "contractInputsValues": {
                 "gauge": "0xfC745035F31BCbaEb2D1a89aA9171495c671F6cE",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "5375988853450424358015"
+                "amount": "5375988141478197576361"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -624,11 +624,11 @@
             "contractInputsValues": {
                 "gauge": "0xa14453084318277b11d38FbE05D857A4f647442B",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "5709451632314545349800"
+                "amount": "5709473217130772354721"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -655,11 +655,11 @@
             "contractInputsValues": {
                 "gauge": "0xd6B875d62c2661eaB66472F36c672e4B512f1135",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "6702238633545990523998"
+                "amount": "6702224573858735311659"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {
@@ -686,11 +686,11 @@
             "contractInputsValues": {
                 "gauge": "0xc3522B0A58d9f12f33E542FC3c3C051b4AF01c83",
                 "reward_token": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-                "amount": "816231717250696306109"
+                "amount": "816223257820742333024"
             }
         },
         {
-            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
             "value": "0",
             "data": null,
             "contractMethod": {

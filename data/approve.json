@@ -1,16 +1,11 @@
-{
-      "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
+    {
+      "to": "0x912CE59144191C1204E64559FE8253a0e49E6548",
       "value": "0",
       "data": null,
       "contractMethod": {
         "inputs": [
           {
-            "name": "gauge",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "reward_token",
+            "name": "spender",
             "type": "address",
             "internalType": "address"
           },
@@ -20,12 +15,11 @@
             "internalType": "uint256"
           }
         ],
-        "name": "manualDeposit",
+        "name": "approve",
         "payable": false
       },
       "contractInputsValues": {
-        "gauge": "",
-        "reward_token": "",
-        "amount": ""
+        "spender": "0xc38c5f97B34E175FFd35407fc91a937300E33860",
+        "amount": "0"
       }
     }
