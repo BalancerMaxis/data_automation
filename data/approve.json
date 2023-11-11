@@ -1,0 +1,25 @@
+    {
+      "to": "0x912CE59144191C1204E64559FE8253a0e49E6548",
+      "value": "0",
+      "data": null,
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "spender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "amount",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "approve",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "spender": "0xc38c5f97B34E175FFd35407fc91a937300E33860",
+        "amount": "0"
+      }
+    }
