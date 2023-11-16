@@ -1,0 +1,31 @@
+{
+      "to": "0xF23d8342881eDECcED51EA694AC21C2B68440929",
+      "value": "0",
+      "data": null,
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "gauge",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "reward_token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "amount",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "manualDeposit",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "gauge": "",
+        "reward_token": "",
+        "amount": ""
+      }
+    }
