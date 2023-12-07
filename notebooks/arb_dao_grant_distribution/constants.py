@@ -72,11 +72,13 @@ GAUGES_WITH_BONUSES = {
     ): {
         'recipientGauge': Web3.to_checksum_address("0xa14453084318277b11d38FbE05D857A4f647442B"),
         'symbol': '4POOL-BPT',
+        'poolAddress': '0x423a1323c871abc9d89eb06855bf5347048fc4a5'
     },
     Web3.to_checksum_address(
         "0xa8Bb331a84032b156E5c670152A5Bd48f5DeC784"
     ): {
         'recipientGauge': Web3.to_checksum_address("0x138E37c3885169DB38e046D5c814C0e95566566c"),
+        'poolAddress': '0xa1a8bf131571a2139feb79401aa4a2e9482df627',
         'symbol': 'wstETH-4POOL',
     },
 }
