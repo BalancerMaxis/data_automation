@@ -5,6 +5,11 @@ STATIC_BOOST = [
         "meta": {"symbol": "RDNT-WETH", "boostReason": "Innovation - ve80/20"},
     },
     {
+        "gaugeAddress": "0xa8bb331a84032b156e5c670152a5bd48f5dec784",
+        "fixedBoost": 1.5,
+        "meta": {"symbol": "wstETH-4pool", "boostReason": "Innovation - ve80/20"},
+    },
+    {
         "gaugeAddress": "0x00b9bcd17cB049739D25FD7f826caA2E23b05620",
         "fixedBoost": 1.75,
         "capOverride": 20,
