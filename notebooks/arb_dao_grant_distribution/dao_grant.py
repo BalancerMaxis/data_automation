@@ -28,18 +28,17 @@ from notebooks.arb_dao_grant_distribution.constants import BALANCER_GAUGE_CONTRO
 from notebooks.arb_dao_grant_distribution.constants import (
     BALANCER_GAUGE_CONTROLLER_ADDR,
 )
-from notebooks.arb_dao_grant_distribution.constants import CURRENT_YEAR
 from notebooks.arb_dao_grant_distribution.constants import GAUGES_WITH_BONUSES
 from notebooks.arb_dao_grant_distribution.constants import VOTE_CAP_IN_PERCENT
-from notebooks.arb_dao_grant_distribution.emissions_per_year import EMISSIONS_PER_YEAR
-from notebooks.arb_dao_grant_distribution.static_boosts import STATIC_BOOST
+from notebooks.arb_dao_grant_distribution.emissions_per_year import get_emissions_per_week
+from notebooks.arb_dao_grant_distribution.static_boosts import boost_data
+from notebooks.arb_dao_grant_distribution.static_boosts import cap_override_data
 
 # End date from timestamp
 
 ARBITRUM_CHAIN_LITERAL = "ARBITRUM"
 
 
-# Fetch all the data from the balancer subgraph
 def make_gql_client(url: str) -> Optional[Client]:
     transport = RequestsHTTPTransport(url=url, retries=3)
     return Client(
@@ -89,16 +88,6 @@ def get_balancer_pool_snapshots(start_ts: int, end_ts: int) -> List[Dict]:
     return fees_snapshots
 
 
-def get_emissions_per_week() -> float:
-    """
-    Fetch emissions per week from the balancer subgraph
-    """
-    emissions_per_week = 0
-    for item in EMISSIONS_PER_YEAR["data"]:
-        if item["year"] == str(CURRENT_YEAR):
-            emissions_per_week = float(item["balPerWeek"])
-            break
-    return emissions_per_week
 
 
 def get_bal_token_price() -> float:
@@ -175,7 +164,6 @@ def main() -> None:
     print(f"Collected data for dates: {start_date.date()} - {end_date.date()}")
     print(f"Block height at the end date: {target_block}")
     emissions_per_week = get_emissions_per_week()
-    print(f"Current BAL emissions per week: {emissions_per_week}")
 
     # Fetch all pools from Balancer API
     all_pools = fetch_all_pools_info("arbitrum")
@@ -200,13 +188,6 @@ def main() -> None:
         address=BALANCER_GAUGE_CONTROLLER_ADDR, abi=BALANCER_GAUGE_CONTROLLER_ABI
     )
 
-    boost_data = {}
-    cap_override_data = {}
-    # Load static boost here
-    for boost in STATIC_BOOST:
-        _gauge_addr = Web3.to_checksum_address(boost["gaugeAddress"])
-        boost_data[_gauge_addr] = boost.get("fixedBoost", 1)
-        cap_override_data[_gauge_addr] = boost.get("capOverride", 10)
     pool_protocol_fees = {}
     # Collect protocol fees from the pool snapshots:
     for gauge_addr, gauge_data in arb_gauges.items():
@@ -256,7 +237,6 @@ def main() -> None:
         weight *= boost
         vote_weights[gauge_addr] = weight
         arb_gauges[gauge_addr]["voteWeight"] = weight
-        print(f"Gauge {gauge_addr} weight: {weight}")
     print(
         f"Total %veBAL vote weight across eligible ARB gauges: {sum(vote_weights.values())}"
     )

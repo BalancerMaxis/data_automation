@@ -1,3 +1,5 @@
+from web3 import Web3
+
 STATIC_BOOST = [
     {
         "gaugeAddress": "0x8135d6AbFd42707A87A7b94c5CFA3529f9b432AD",
@@ -61,3 +63,12 @@ STATIC_BOOST = [
         "meta": {"symbol": "GOLD-BAL-AURA-wstETH", "boostReason": "BIP agreement"},
     },
 ]
+
+# Load static boost data
+boost_data = {}
+cap_override_data = {}
+# Load static boost here
+for boost in STATIC_BOOST:
+    _gauge_addr = Web3.to_checksum_address(boost["gaugeAddress"])
+    boost_data[_gauge_addr] = boost.get("fixedBoost", 1)
+    cap_override_data[_gauge_addr] = boost.get("capOverride", 10)
