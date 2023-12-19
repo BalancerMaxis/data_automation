@@ -30,7 +30,9 @@ from notebooks.arb_dao_grant_distribution.constants import (
 )
 from notebooks.arb_dao_grant_distribution.constants import GAUGES_WITH_BONUSES
 from notebooks.arb_dao_grant_distribution.constants import VOTE_CAP_IN_PERCENT
-from notebooks.arb_dao_grant_distribution.emissions_per_year import get_emissions_per_week
+from notebooks.arb_dao_grant_distribution.emissions_per_year import (
+    get_emissions_per_week,
+)
 from notebooks.arb_dao_grant_distribution.static_boosts import boost_data
 from notebooks.arb_dao_grant_distribution.static_boosts import cap_override_data
 
@@ -47,6 +49,11 @@ def make_gql_client(url: str) -> Optional[Client]:
 
 
 def get_balancer_pool_snapshots(start_ts: int, end_ts: int) -> List[Dict]:
+    """
+    Fetch balancer pool snapshots from the subgraph and calculate protocol fees collected for each pool.
+    This works like this: fetch snapshots by time range from the graph, then find the first and last snapshot
+    and calculate the difference between them. This will give us the protocol fees collected for the period.
+    """
     client = make_gql_client(BALANCER_GRAPH_URL)
     all_snapthots = []
     limit = 100
@@ -88,8 +95,6 @@ def get_balancer_pool_snapshots(start_ts: int, end_ts: int) -> List[Dict]:
     return fees_snapshots
 
 
-
-
 def get_bal_token_price() -> float:
     """
     Fetch bal token price from coingecko
@@ -102,6 +107,10 @@ def get_bal_token_price() -> float:
 def recur_distribute_unspend_arb(
     vote_caps: Dict, arb_gauge_distributions: Dict
 ) -> None:
+    """
+    Recursively distribute unspent arb to uncapped gauges proportionally to their voting weight until
+    there is no unspent arb left
+    """
     unspent_arb = ARBITRUM_TO_DISTRIBUTE - sum(
         [gauge["distribution"] for gauge in arb_gauge_distributions.values()]
     )
