@@ -272,9 +272,10 @@ def main() -> None:
             (weight / 100) * emissions_per_week * bal_token_price
         )
         if dollar_value_of_bal_emitted >= MIN_BAL_IN_USD_FOR_BOOST:
-            dynamic_boost = ((pool_protocol_fees.get(gauge_addr, 0) / dollar_value_of_bal_emitted) + 1) * DYNAMIC_BOOST_MULTIPLIER
+            dynamic_boost = (pool_protocol_fees.get(gauge_addr, 0) * DYNAMIC_BOOST_MULTIPLIER
+                             / dollar_value_of_bal_emitted) + 1
         else:
-            dynamic_boost = DYNAMIC_BOOST_MULTIPLIER
+            dynamic_boost = 1
         dynamic_boosts[gauge_addr] = dynamic_boost
         # Now calculate the final boost value, which uses formula - (dynamic boost + fixed boost) - 1
         boost = (dynamic_boost + boost_data.get(gauge_addr, 1)) - 1
@@ -380,7 +381,7 @@ def main() -> None:
     )
     # Export to csv
     arb_gauge_distributions_df.to_csv(
-        f"./output/dao_grant_{start_date.date()}_{end_date.date()}_1x.csv", index=False
+        f"./output/dao_grant_{start_date.date()}_{end_date.date()}_3x.csv", index=False
     )
 
     generate_and_save_transaction(arb_gauge_distributions, start_date, end_date)
