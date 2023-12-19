@@ -380,7 +380,7 @@ def main() -> None:
     )
     # Export to csv
     arb_gauge_distributions_df.to_csv(
-        f"./output/dao_grant_{start_date.date()}_{end_date.date()}_2x.csv", index=False
+        f"./output/dao_grant_{start_date.date()}_{end_date.date()}_1x.csv", index=False
     )
 
     generate_and_save_transaction(arb_gauge_distributions, start_date, end_date)
