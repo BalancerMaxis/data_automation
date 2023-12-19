@@ -21,14 +21,15 @@ from notebooks import get_abi
 from notebooks import get_block_by_ts
 from notebooks.airdrop_arb_distribution.constants import BALANCER_GRAPH_URL
 from notebooks.airdrop_arb_distribution.constants import POOLS_SNAPSHOTS_QUERY
-from notebooks.arb_dao_grant_distribution.constants import ARBITRUM_BONUS
 from notebooks.arb_dao_grant_distribution.constants import ARBITRUM_TOTAL
 from notebooks.arb_dao_grant_distribution.constants import ARBITRUM_TO_DISTRIBUTE
 from notebooks.arb_dao_grant_distribution.constants import BALANCER_GAUGE_CONTROLLER_ABI
 from notebooks.arb_dao_grant_distribution.constants import (
     BALANCER_GAUGE_CONTROLLER_ADDR,
 )
+from notebooks.arb_dao_grant_distribution.constants import DYNAMIC_BOOST_MULTIPLIER
 from notebooks.arb_dao_grant_distribution.constants import GAUGES_WITH_BONUSES
+from notebooks.arb_dao_grant_distribution.constants import MIN_BAL_IN_USD_FOR_BOOST
 from notebooks.arb_dao_grant_distribution.constants import VOTE_CAP_IN_PERCENT
 from notebooks.arb_dao_grant_distribution.emissions_per_year import (
     get_emissions_per_week,
@@ -229,9 +230,6 @@ def main() -> None:
                 "id": pool["id"],
             }
     print(f"Total arb gauges eligible for STIP emissions: {len(arb_gauges)}")
-    gauge_c_contract = web3.eth.contract(
-        address=BALANCER_GAUGE_CONTROLLER_ADDR, abi=BALANCER_GAUGE_CONTROLLER_ABI
-    )
 
     pool_protocol_fees = {}
     # Collect protocol fees from the pool snapshots:
@@ -256,6 +254,10 @@ def main() -> None:
     # Dynamic boost data to print out in the final table
     dynamic_boosts = {}
     # Collect gauge voting weights from the gauge controller on chain
+    gauge_c_contract = web3.eth.contract(
+        address=BALANCER_GAUGE_CONTROLLER_ADDR, abi=BALANCER_GAUGE_CONTROLLER_ABI
+    )
+    bal_token_price = get_bal_token_price()
     for gauge_addr, gauge_data in arb_gauges.items():
         weight = (
             gauge_c_contract.functions.gauge_relative_weight(
@@ -267,12 +269,12 @@ def main() -> None:
         arb_gauges[gauge_addr]["weightNoBoost"] = weight
         # Calculate dynamic boost. Formula is `[Fees earned/value of bal emitted per pool + 1]`
         dollar_value_of_bal_emitted = (
-            (weight / 100) * emissions_per_week * get_bal_token_price()
+            (weight / 100) * emissions_per_week * bal_token_price
         )
-        if dollar_value_of_bal_emitted != 0:
-            dynamic_boost = (
+        if dollar_value_of_bal_emitted >= MIN_BAL_IN_USD_FOR_BOOST:
+            dynamic_boost = ((
                 pool_protocol_fees.get(gauge_addr, 0) / dollar_value_of_bal_emitted
-            ) + 1
+            ) + 1) * DYNAMIC_BOOST_MULTIPLIER
         else:
             dynamic_boost = 1
         dynamic_boosts[gauge_addr] = dynamic_boost
@@ -345,14 +347,14 @@ def main() -> None:
     # Toss in bonus arb to the predefined gauge:
     for gauge, gauge_info in GAUGES_WITH_BONUSES.items():
         # Calculate bonus per pool
-        arbitrum_bonus_per_pool = ARBITRUM_BONUS / len(GAUGES_WITH_BONUSES)
+        bonus = gauge_info["bonus"]
         # If gauge already exists, add bonus to it and recalculate % distribution, if not - create new gauge with bonus
         if arb_gauge_distributions.get(gauge):
-            arb_gauge_distributions[gauge]["distribution"] += arbitrum_bonus_per_pool
+            arb_gauge_distributions[gauge]["distribution"] += bonus
             arb_gauge_distributions[gauge]["pctDistribution"] = (
                 arb_gauge_distributions[gauge]["distribution"] / ARBITRUM_TOTAL * 100
             )
-            arb_gauge_distributions[gauge]["bonus"] = arbitrum_bonus_per_pool
+            arb_gauge_distributions[gauge]["bonus"] = bonus
         else:
             arb_gauge_distributions[gauge] = {
                 "recipientGaugeAddr": gauge_info["recipientGauge"],
@@ -360,13 +362,13 @@ def main() -> None:
                 "symbol": gauge_info["symbol"],
                 "voteWeight": 0,
                 "voteWeightNoBoost": 0,
-                "distribution": arbitrum_bonus_per_pool,
-                "pctDistribution": arbitrum_bonus_per_pool / ARBITRUM_TOTAL * 100,
+                "distribution": bonus,
+                "pctDistribution": bonus / ARBITRUM_TOTAL * 100,
                 "boost": combined_boost.get(gauge, 1),
                 "staticBoost": boost_data.get(gauge, 1),
                 "dynamicBoost": dynamic_boosts.get(gauge, 1),
                 "cap": f"{cap_override_data.get(gauge, VOTE_CAP_IN_PERCENT)}%",
-                "bonus": arbitrum_bonus_per_pool,
+                "bonus": bonus,
             }
     arb_gauge_distributions_df = pd.DataFrame.from_dict(
         arb_gauge_distributions, orient="index"
@@ -375,11 +377,12 @@ def main() -> None:
         by="pctDistribution", ascending=False
     )
     print(
-        f"Total arb distributed incl bonus: {sum([gauge['distribution'] for gauge in arb_gauge_distributions.values()])}"
+        f"Total arb distributed incl bonus: "
+        f"{sum([gauge['distribution'] for gauge in arb_gauge_distributions.values()])}"
     )
     # Export to csv
     arb_gauge_distributions_df.to_csv(
-        f"./output/dao_grant_{start_date.date()}_{end_date.date()}.csv", index=False
+        f"./output/dao_grant_{start_date.date()}_{end_date.date()}_3x.csv", index=False
     )
 
     generate_and_save_transaction(arb_gauge_distributions, start_date, end_date)
