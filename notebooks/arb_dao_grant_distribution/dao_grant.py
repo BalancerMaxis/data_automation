@@ -156,6 +156,42 @@ def recur_distribute_unspend_arb(
         recur_distribute_unspend_arb(vote_caps, arb_gauge_distributions)
 
 
+def generate_and_save_transaction(arb_gauge_distributions: Dict, start_date: datetime, end_date: datetime) -> Dict:
+    """
+    Take tx template and inject data into it
+    """
+    # Dump into output.json using:
+    with open("../../data/output_tx_template.json") as f:
+        output_data = json.load(f)
+    # Find transaction with func name `setRecipientList` and dump gauge
+    gauge_distributions = arb_gauge_distributions.values()
+    for tx in output_data["transactions"]:
+        if tx["contractMethod"]["name"] == "setRecipientList":
+            # Inject list of gauges addresses:
+            tx["contractInputsValues"][
+                "gaugeAddresses"
+            ] = f"[{','.join([gauge['recipientGaugeAddr'] for gauge in gauge_distributions])}]"
+            # Inject vote weights:
+            # Dividing by 2 since we are distributing for 2 weeks and 1 week is a period
+            tx["contractInputsValues"][
+                "amountsPerPeriod"
+            ] = f"[{','.join([str(int(Decimal(gauge['distribution']) * Decimal(1e18) / 2)) for gauge in gauge_distributions])}]"
+            tx["contractInputsValues"][
+                "maxPeriods"
+            ] = f"[{','.join(['2' for gauge in gauge_distributions])}]"
+        if tx["contractMethod"]["name"] == "transfer":
+            tx["contractInputsValues"]["amount"] = str(
+                int(Decimal(ARBITRUM_TOTAL) * Decimal(1e18))
+            )
+
+    # Dump back to arb_distribution_for_msig.json
+    with open(
+        f"./output/dao_grant_{start_date.date()}_{end_date.date()}.json", "w"
+    ) as _f:
+        json.dump(output_data, _f, indent=4)
+    return output_data
+
+
 def main() -> None:
     """
     Main function to execute STIP calculations
@@ -346,36 +382,7 @@ def main() -> None:
         f"./output/dao_grant_{start_date.date()}_{end_date.date()}.csv", index=False
     )
 
-    # Dump into output.json using:
-    with open("../../data/output_tx_template.json") as f:
-        output_data = json.load(f)
-
-    # Find transaction with func name `setRecipientList` and dump gauge
-    gauge_distributions = arb_gauge_distributions.values()
-    for tx in output_data["transactions"]:
-        if tx["contractMethod"]["name"] == "setRecipientList":
-            # Inject list of gauges addresses:
-            tx["contractInputsValues"][
-                "gaugeAddresses"
-            ] = f"[{','.join([gauge['recipientGaugeAddr'] for gauge in gauge_distributions])}]"
-            # Inject vote weights:
-            # Dividing by 2 since we are distributing for 2 weeks and 1 week is a period
-            tx["contractInputsValues"][
-                "amountsPerPeriod"
-            ] = f"[{','.join([str(int(Decimal(gauge['distribution']) * Decimal(1e18) / 2)) for gauge in gauge_distributions])}]"
-            tx["contractInputsValues"][
-                "maxPeriods"
-            ] = f"[{','.join(['2' for gauge in gauge_distributions])}]"
-        if tx["contractMethod"]["name"] == "transfer":
-            tx["contractInputsValues"]["amount"] = str(
-                int(Decimal(ARBITRUM_TOTAL) * Decimal(1e18))
-            )
-
-    # Dump back to arb_distribution_for_msig.json
-    with open(
-        f"./output/dao_grant_{start_date.date()}_{end_date.date()}.json", "w"
-    ) as f:
-        json.dump(output_data, f, indent=4)
+    generate_and_save_transaction(arb_gauge_distributions, start_date, end_date)
 
 
 if __name__ == "__main__":
