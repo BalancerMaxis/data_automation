@@ -1,3 +1,6 @@
+# TODO: Change year
+CURRENT_YEAR = 2023
+
 EMISSIONS_PER_YEAR = {
     "meta": {
         "changeDate": "28-03",
@@ -35,3 +38,15 @@ EMISSIONS_PER_YEAR = {
         {"year": "2050", "balPerWeek": "1132.8125000000002"},
     ],
 }
+
+
+def get_emissions_per_week() -> float:
+    """
+    Fetch emissions per week from the balancer subgraph
+    """
+    emissions_per_week = 0
+    for item in EMISSIONS_PER_YEAR["data"]:
+        if item["year"] == str(CURRENT_YEAR):
+            emissions_per_week = float(item["balPerWeek"])
+            break
+    return emissions_per_week
